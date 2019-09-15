@@ -7,9 +7,69 @@ import Button from "../../components/UI/Button/Button";
 import classes from "./Auth.module.css";
 import * as actions from "../../store/actions/index";
 import Spinner from "../../components/UI/Spinner/Spinner";
+import * as validationUtils from "../../common/ValidationUtils";
 
 const Auth = props => {
-  const [controls, setControls] = useState({
+  const [registerControls, setRegisterControls] = useState({
+    email: {
+      elementType: "input",
+      elementConfig: {
+        type: "text",
+        placeholder: "Email address"
+      },
+      value: "",
+      validation: {
+        required: true,
+        isEmail: true
+      },
+      valid: false,
+      touched: false
+    },
+    indexNumber: {
+      elementType: "input",
+      elementConfig: {
+        type: "text",
+        placeholder: "Index number"
+      },
+      value: "",
+      validation: {
+        required: true,
+        isNumeric: true,
+        minLength: 4
+      },
+      valid: false,
+      touched: false
+    },
+    password: {
+      elementType: "input",
+      elementConfig: {
+        type: "password",
+        placeholder: "Password"
+      },
+      value: "",
+      validation: {
+        required: true,
+        minLength: 6
+      },
+      valid: false,
+      touched: false
+    },
+    password2: {
+      elementType: "input",
+      elementConfig: {
+        type: "password",
+        placeholder: "Check password"
+      },
+      value: "",
+      validation: {
+        required: true,
+        minLength: 6
+      },
+      valid: false,
+      touched: false
+    }
+  });
+  const [loginControls, setLoginControls] = useState({
     email: {
       elementType: "input",
       elementConfig: {
@@ -46,65 +106,47 @@ const Auth = props => {
       props.onSetAuthRedirectPath();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [isSignup]);
 
-  const checkValidity = (value, rules) => {
-    let isValid = true;
-    if (!rules) {
-      return true;
-    }
-
-    if (rules.required) {
-      isValid = value.trim() !== "" && isValid;
-    }
-
-    if (rules.minLength) {
-      isValid = value.length >= rules.minLength && isValid;
-    }
-
-    if (rules.maxLength) {
-      isValid = value.length <= rules.maxLength && isValid;
-    }
-
-    if (rules.isEmail) {
-      const pattern = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
-      isValid = pattern.test(value) && isValid;
-    }
-
-    if (rules.isNumeric) {
-      const pattern = /^\d+$/;
-      isValid = pattern.test(value) && isValid;
-    }
-
-    return isValid;
-  };
-
-  const inputChangedHandler = (event, controlName) => {
+  const inputChangedHandler = (event, controls, controlName) => {
     const updatedControls = {
       ...controls,
       [controlName]: {
         ...controls[controlName],
         value: event.target.value,
-        valid: checkValidity(
+        valid: validationUtils.checkValidity(
           event.target.value,
           controls[controlName].validation
         ),
         touched: true
       }
     };
-    setControls(updatedControls);
+    isSignup
+      ? setRegisterControls(updatedControls)
+      : setLoginControls(updatedControls);
   };
 
   const submitHandler = event => {
     event.preventDefault();
-    props.onAuth(controls.email.value, controls.password.value, isSignup);
+    console.log(controls.email.value);
+    console.log(controls.password.value);
+
+    props.onAuth(
+      controls.email.value,
+      controls.password.value,
+      isSignup ? controls.indexNumber.value : -1,
+      isSignup
+    );
   };
 
   const switchAuthModeHandler = () => {
     setIsSignup(!isSignup);
+    console.log(isSignup);
   };
 
   const formElementsArray = [];
+
+  let controls = isSignup ? registerControls : loginControls;
 
   for (let key in controls) {
     formElementsArray.push({
@@ -122,15 +164,25 @@ const Auth = props => {
       invalid={!formElement.config.valid}
       shouldValidate={formElement.config.validation}
       touched={formElement.config.touched}
-      changed={event => inputChangedHandler(event, formElement.id)}
+      changed={event => inputChangedHandler(event, controls, formElement.id)}
     />
   ));
+
+  let errorMessage = null;
+
+  let passwords = form.filter(el => el.key.includes("password"));
+
+  let passCheck = passwords
+    .map(password => password.props.value)
+    .every(password => password === passwords[0].props.value);
 
   if (props.loading) {
     form = <Spinner />;
   }
 
-  let errorMessage = null;
+  if (!passCheck) {
+    errorMessage = <p>Passwords are not equal</p>;
+  }
 
   if (props.error) {
     errorMessage = <p>{props.error.message}</p>;
@@ -155,7 +207,9 @@ const Auth = props => {
         </Button>
       </form>
       <Button clicked={switchAuthModeHandler} btnType="Danger">
-        SWITCH TO {isSignup ? "SIGNIN" : "SIGNUP"}
+        {isSignup
+          ? "Already a member? Click to log in"
+          : "Not registered? Click to sign up"}
       </Button>
     </div>
   );
@@ -173,8 +227,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onAuth: (email, password, isSignup) =>
-      dispatch(actions.auth(email, password, isSignup)),
+    onAuth: (email, password, indexNumber, isSignup) =>
+      dispatch(actions.auth(email, password, indexNumber, isSignup)),
     onSetAuthRedirectPath: () => dispatch(actions.setAuthRedirectPath("/"))
   };
 };
