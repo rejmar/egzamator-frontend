@@ -38,7 +38,7 @@ export const checkAuthTimeout = expirationTime => {
     }, expirationTime * 1000);
   };
 };
-export const auth = (email, password, isSignup) => {
+export const auth = (email, password, indexNumber, isSignup) => {
   return dispatch => {
     dispatch(authStart());
     const authData = {
@@ -47,10 +47,10 @@ export const auth = (email, password, isSignup) => {
       returnSecureToken: true
     };
     let url =
-      "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyD-bpuxhNfk63zQkYhvhxeLzuI3dVUNkWQ";
+      "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyD8IGa5AlX7K31DEaz3q6xwVHiGUSrX9Hw";
     if (!isSignup) {
       url =
-        "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyD-bpuxhNfk63zQkYhvhxeLzuI3dVUNkWQ";
+        "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyD8IGa5AlX7K31DEaz3q6xwVHiGUSrX9Hw";
     }
     axios
       .post(url, authData)
@@ -63,6 +63,7 @@ export const auth = (email, password, isSignup) => {
         localStorage.setItem("userId", res.data.localId);
         dispatch(authSuccess(res.data.idToken, res.data.localId));
         dispatch(checkAuthTimeout(res.data.expiresIn));
+        dispatch(registerUser(res.data.localId, email, indexNumber));
       })
       .catch(err => {
         dispatch(authFail(err.response.data.error));
@@ -96,5 +97,23 @@ export const authCheckState = () => {
         );
       }
     }
+  };
+};
+
+export const registerUser = (userId, email, indexNumber) => {
+  const userData = {
+    userId,
+    email,
+    indexNumber
+  };
+  return dispatch => {
+    axios
+      .post("http://localhost:8080/egzamator-api/user/registerUser/", userData)
+      .then(response => {
+        console.log(response.data);
+      })
+      .catch(err => {
+        console.log("ERROR: " + err.response.data.error);
+      });
   };
 };
