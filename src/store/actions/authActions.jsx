@@ -1,5 +1,10 @@
 import axios from "axios";
 import * as actionTypes from "./actionTypes";
+import userActions, {
+  fetchUserStart,
+  fetchUserSuccess,
+  fetchUserFail
+} from "./userActions";
 
 export const authStart = () => {
   return {
@@ -41,33 +46,15 @@ export const checkAuthTimeout = expirationTime => {
 export const auth = (email, password, indexNumber, isSignup) => {
   return dispatch => {
     dispatch(authStart());
+    dispatch(fetchUserStart());
     const authData = {
       email,
+      indexNumber,
       password,
       returnSecureToken: true
     };
-    let url =
-      "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyD8IGa5AlX7K31DEaz3q6xwVHiGUSrX9Hw";
-    if (!isSignup) {
-      url =
-        "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyD8IGa5AlX7K31DEaz3q6xwVHiGUSrX9Hw";
-    }
-    axios
-      .post(url, authData)
-      .then(res => {
-        const expirationDate = new Date(
-          new Date().getTime() + res.data.expiresIn * 1000
-        );
-        localStorage.setItem("token", res.data.idToken);
-        localStorage.setItem("expirationDate", expirationDate);
-        localStorage.setItem("userId", res.data.localId);
-        dispatch(authSuccess(res.data.idToken, res.data.localId));
-        dispatch(checkAuthTimeout(res.data.expiresIn));
-        dispatch(registerUser(res.data.localId, email, indexNumber));
-      })
-      .catch(err => {
-        dispatch(authFail(err.response.data.error));
-      });
+
+    dispatch(logOrRegisterUser(authData, isSignup));
   };
 };
 
@@ -78,7 +65,7 @@ export const setAuthRedirectPath = path => {
   };
 };
 
-export const authCheckState = () => {
+export const authCheckState = userData => {
   return dispatch => {
     const token = localStorage.getItem("token");
     if (!token) {
@@ -90,6 +77,7 @@ export const authCheckState = () => {
       } else {
         const userId = localStorage.getItem("userId");
         dispatch(authSuccess(token, userId));
+        dispatch(fetchUserSuccess(userData));
         dispatch(
           checkAuthTimeout(
             (expirationDate.getTime() - new Date().getTime()) / 1000
@@ -109,11 +97,80 @@ export const registerUser = (userId, email, indexNumber) => {
   return dispatch => {
     axios
       .post("http://localhost:8080/egzamator-api/user/registerUser/", userData)
+      .then(response => {})
+      .catch(err => {
+        console.log("RegisterUser:", err);
+        dispatch(authFail(err.response.data.err));
+        dispatch(fetchUserFail());
+      });
+  };
+};
+
+export const logOrRegisterUser = (authData, isSignup) => {
+  return dispatch => {
+    axios
+      .post(
+        "http://localhost:8080/egzamator-api/user/checkUser?email=" +
+          authData.email +
+          "&indexNumber=" +
+          authData.indexNumber
+      )
       .then(response => {
-        console.log(response.data);
+        let url;
+        let isUnique;
+        let foundUser;
+        if (isSignup) {
+          url =
+            "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyD8IGa5AlX7K31DEaz3q6xwVHiGUSrX9Hw";
+          isUnique = response.data ? false : true;
+        } else {
+          url =
+            "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyD8IGa5AlX7K31DEaz3q6xwVHiGUSrX9Hw";
+          foundUser = response.data;
+          isUnique = true;
+        }
+
+        isUnique &&
+          axios
+            .post(url, authData)
+            .then(res => {
+              const expirationDate = new Date(
+                new Date().getTime() + res.data.expiresIn * 1000
+              );
+              localStorage.setItem("token", res.data.idToken);
+              localStorage.setItem("expirationDate", expirationDate);
+              localStorage.setItem("userId", res.data.localId);
+
+              if (url.includes("signUp")) {
+                dispatch(
+                  registerUser(
+                    res.data.localId,
+                    authData.email,
+                    authData.indexNumber
+                  )
+                );
+              }
+              dispatch(authSuccess(res.data.idToken, res.data.localId));
+              dispatch(checkAuthTimeout(res.data.expiresIn));
+              dispatch(fetchUserSuccess(foundUser));
+            })
+            .catch(err => {
+              console.log("Login/register: ", err);
+
+              dispatch(authFail(err.response.data.error));
+              dispatch(fetchUserFail());
+            });
+
+        if (!isUnique) {
+          dispatch(authFail("An user with such email or index number exists"));
+          dispatch(fetchUserFail());
+        }
+        // console.log("END of auth method");
       })
       .catch(err => {
-        console.log("ERROR: " + err.response.data.error);
+        console.log("logOrRegisterUser:", err);
+        dispatch(authFail(err.response.data.error));
+        dispatch(fetchUserFail());
       });
   };
 };

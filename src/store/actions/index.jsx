@@ -12,3 +12,5 @@ export {
   setAuthRedirectPath,
   authCheckState
 } from "./authActions";
+
+export { getUser } from "./userActions";

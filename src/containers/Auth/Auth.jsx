@@ -99,7 +99,7 @@ const Auth = props => {
       touched: false
     }
   });
-  const [isSignup, setIsSignup] = useState(true);
+  const [isSignup, setIsSignup] = useState(false);
 
   useEffect(() => {
     if (!props.building && props.authRedirectPath !== "/") {
@@ -141,7 +141,6 @@ const Auth = props => {
 
   const switchAuthModeHandler = () => {
     setIsSignup(!isSignup);
-    console.log(isSignup);
   };
 
   const formElementsArray = [];
