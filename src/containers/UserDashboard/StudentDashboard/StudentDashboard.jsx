@@ -2,6 +2,9 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 
 const StudentDashboard = props => {
+  // useEffect(() => {
+
+  // })
   console.log(props);
   return (
     <div>
@@ -10,4 +13,9 @@ const StudentDashboard = props => {
   );
 };
 
-export default StudentDashboard;
+const mapStateToProps = state => {
+  return {
+    studentData: state.user.student
+  };
+};
+export default connect(mapStateToProps)(StudentDashboard);

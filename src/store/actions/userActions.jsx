@@ -25,6 +25,8 @@ export const getUser = userId => {
     axios
       .post("http://localhost:8080/egzamator-api/user/getUser?userId=" + userId)
       .then(response => {
+        console.log("UserData:", response.data);
+
         dispatch(fetchUserSuccess(response.data));
       })
       .catch(error => {
@@ -32,3 +34,37 @@ export const getUser = userId => {
       });
   };
 };
+
+export const userLogout = () => {
+  return {
+    type: actionTypes.USER_LOGOUT
+  };
+};
+
+export const getTest = testId => {
+  return dispatch => {
+    axios
+      .post("http://localhost:8080/egzamator-api/test/getTest?id=" + testId)
+      .then(response => {
+        console.log("Test:", response.data);
+
+        // dispatch(fetchUserSuccess(response.data));
+      })
+      .catch(error => {
+        // dispatch(fetchUserFail());
+      });
+  };
+};
+
+// export const getUserRole = userId => {
+//   return dispatch => {
+//     axios
+//       .post("http://localhost:8080/egzamator-api/user/role?userId=" + userId)
+//       .then(response => {
+//         dispatch(fetchUserRole(response.data));
+//       })
+//       .catch(error => {
+//         dispatch(fetchUserFail());
+//       });
+//   };
+// };

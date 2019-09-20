@@ -1,9 +1,10 @@
 import axios from "axios";
 import * as actionTypes from "./actionTypes";
-import userActions, {
+import {
   fetchUserStart,
   fetchUserSuccess,
-  fetchUserFail
+  fetchUserFail,
+  userLogout
 } from "./userActions";
 
 export const authStart = () => {
@@ -36,10 +37,19 @@ export const logout = () => {
   };
 };
 
+export const cleanAndLogout = () => {
+  return dispatch => {
+    dispatch(userLogout());
+    dispatch(logout());
+  };
+};
+
+// export const
+
 export const checkAuthTimeout = expirationTime => {
   return dispatch => {
     setTimeout(() => {
-      dispatch(logout());
+      dispatch(cleanAndLogout());
     }, expirationTime * 1000);
   };
 };
@@ -69,11 +79,11 @@ export const authCheckState = userData => {
   return dispatch => {
     const token = localStorage.getItem("token");
     if (!token) {
-      dispatch(logout());
+      dispatch(cleanAndLogout());
     } else {
       const expirationDate = new Date(localStorage.getItem("expirationDate"));
       if (expirationDate <= new Date()) {
-        dispatch(logout());
+        dispatch(cleanAndLogout());
       } else {
         const userId = localStorage.getItem("userId");
         dispatch(authSuccess(token, userId));

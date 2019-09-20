@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import axios from "../../axios-orders";
+import axios from "../../axios";
 
 import Aux from "../../hoc/Auxx";
 import Sandwich from "../../components/Sandwich/Sandwich";

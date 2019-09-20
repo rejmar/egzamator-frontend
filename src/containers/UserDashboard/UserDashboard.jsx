@@ -9,18 +9,18 @@ const UserDashboard = props => {
   useEffect(() => {
     props.onUserLog(props.userId);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.userId]);
+  }, []);
 
-  const userRole = props.userData ? props.userData.role.role : null;
+  // const userRole = props.userData ? props.userData.role.name : null;
 
-  const userDashboard = userRole ? (
-    userRole.includes("ROLE_STUDENT") ? (
+  const userDashboard = props.role ? (
+    props.role.includes("ROLE_STUDENT") ? (
       <div>
-        <StudentDashboard {...props}/>
+        <StudentDashboard {...props} />
       </div>
     ) : (
       <div>
-        <TeacherDashboard {...props}/>
+        <TeacherDashboard {...props} />
       </div>
     )
   ) : null;
@@ -30,7 +30,7 @@ const UserDashboard = props => {
 
 const mapStateToProps = state => {
   return {
-    userData: state.user.userData,
+    role: state.user.role,
     userId: state.auth.userId
   };
 };
