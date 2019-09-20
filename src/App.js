@@ -9,12 +9,13 @@ import * as actions from "./store/actions/index";
 import spinner from "./components/UI/Spinner/Spinner";
 import Home from "./containers/Home/Home";
 import UserDashboard from "./containers/UserDashboard/UserDashboard";
+import Tests from "./containers/Tests/Tests";
 
 const App = props => {
   useEffect(() => {
     props.onTryAutoSignup(props.userData);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.userData]);
+  }, []);
 
   const Orders = React.lazy(() => {
     return import("./containers/Orders/Orders");
@@ -35,16 +36,26 @@ const App = props => {
   );
 
   if (props.isAuthenticated) {
-    routes = (
-      <Switch>
-        <Route path="/" exact component={UserDashboard} />
-        <Route path="/orders" exact render={props => <Orders {...props} />} />
-        <Route path="/logout" exact component={Logout} />
-        <Route path="/auth" render={props => <Auth {...props} />} />
-        <Route path="/checkout" render={props => <Checkout {...props} />} />
-        <Redirect to="/" />
-      </Switch>
-    );
+    props.userRole === "ROLE_STUDENT"
+      ? (routes = (
+          <Switch>
+            <Route path="/" exact component={UserDashboard} />
+            <Route path="/tests" exact component={Tests} />
+            {/* <Route path="/subjects" exact component={Subjects} /> */}
+
+            <Route path="/logout" exact component={Logout} />
+            <Redirect to="/" />
+          </Switch>
+        ))
+      : (routes = (
+          <Switch>
+            <Route path="/" exact component={UserDashboard} />
+            <Route path="/tests" exact component={Tests} />
+            {/* <Route path="/subjects" exact component={Subjects} /> */}
+            <Route path="/logout" exact component={Logout} />
+            <Redirect to="/" />
+          </Switch>
+        ));
   }
   return (
     <div>
@@ -58,7 +69,8 @@ const App = props => {
 const mapStateToProps = state => {
   return {
     isAuthenticated: state.auth.token !== null,
-    userData: state.user.userData
+    userData: state.user.userData,
+    userRole: state.user.role
   };
 };
 

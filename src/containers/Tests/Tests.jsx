@@ -1,56 +1,47 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
-import Order from "../../components/Order/Order";
-import axios from "../../axios-tests";
-import withErrorHandler from "../../hoc/withErrorHandler/withErrorHandler";
+
 import * as actions from "../../store/actions/index";
-import Spinner from "../../components/UI/Spinner/Spinner";
+import StudentTests from "./StudentTests/StudentTests";
+import TeacherTests from "./TeacherTests/TeacherTests";
 
-const tests = props => {
+const Tests = props => {
   useEffect(() => {
-    // props.onFetchtests
-  (props.token, props.userId);
-
+    // props.onUserLog(props.userId);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  let tests
- = <Spinner />;
-  if (!props.loading) {
-    tests
-   = props.tests
-  .map(order => (
-      <Order
-        key={order.id}
-        ingredients={order.ingredients}
-        price={order.price}
-      />
-    ));
-  }
-  return <div>{tests
-}</div>;
+  // const userRole = props.userData ? props.userData.role.name : null;
+
+  const userTests = props.role ? (
+    props.role.includes("ROLE_STUDENT") ? (
+      <div>
+        <StudentTests {...props} />
+      </div>
+    ) : (
+      <div>
+        <TeacherTests {...props} />
+      </div>
+    )
+  ) : null;
+
+  return <div>{userTests}</div>;
 };
 
 const mapStateToProps = state => {
   return {
-    tests
-  : state.order.tests
-  ,
-    loading: state.order.loading,
-    token: state.auth.token,
+    role: state.user.role,
     userId: state.auth.userId
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    onFetchtests
-  : (token, userId) => dispatch(actions.fetchtests
-    (token, userId))
+    onUserLog: userId => dispatch(actions.getUser(userId))
   };
 };
+
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withErrorHandler(tests
-, axios));
+)(Tests);

@@ -10,4 +10,9 @@ const TeacherDashboard = props => {
   );
 };
 
-export default TeacherDashboard;
+const mapStateToProps = state => {
+  return {
+    teacherData: state.user.teacher
+  };
+};
+export default connect(mapStateToProps)(TeacherDashboard);
