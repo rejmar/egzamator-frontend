@@ -13,4 +13,4 @@ export {
   authCheckState
 } from "./authActions";
 
-export { getUser, getTest } from "./userActions";
+export { getUser, getTest, addNewTest } from "./userActions";

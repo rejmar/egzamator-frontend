@@ -2,10 +2,10 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 
 import * as actions from "../../store/actions/index";
-import StudentTests from "./StudentTests/StudentTests";
-import TeacherTests from "./TeacherTests/TeacherTests";
+import StudentTestsDashboard from "./StudentTestsDashboard/StudentTestsDashboard";
+import TeacherTestsDashboard from "./TeacherTestsDashboard/TeacherTestsDashboard";
 
-const Tests = props => {
+const TestsDashboard = props => {
   useEffect(() => {
     // props.onUserLog(props.userId);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -16,11 +16,11 @@ const Tests = props => {
   const userTests = props.role ? (
     props.role.includes("ROLE_STUDENT") ? (
       <div>
-        <StudentTests {...props} />
+        <StudentTestsDashboard {...props} />
       </div>
     ) : (
       <div>
-        <TeacherTests {...props} />
+        <TeacherTestsDashboard {...props} />
       </div>
     )
   ) : null;
@@ -44,4 +44,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Tests);
+)(TestsDashboard);
