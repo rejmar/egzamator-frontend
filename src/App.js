@@ -9,7 +9,7 @@ import * as actions from "./store/actions/index";
 import spinner from "./components/UI/Spinner/Spinner";
 import Home from "./containers/Home/Home";
 import UserDashboard from "./containers/UserDashboard/UserDashboard";
-import Tests from "./containers/Tests/Tests";
+import TestsDashboard from "./containers/TestsDashboard/TestsDashboard";
 
 const App = props => {
   useEffect(() => {
@@ -40,7 +40,7 @@ const App = props => {
       ? (routes = (
           <Switch>
             <Route path="/" exact component={UserDashboard} />
-            <Route path="/tests" exact component={Tests} />
+            <Route path="/tests" exact component={TestsDashboard} />
             {/* <Route path="/subjects" exact component={Subjects} /> */}
 
             <Route path="/logout" exact component={Logout} />
@@ -50,7 +50,7 @@ const App = props => {
       : (routes = (
           <Switch>
             <Route path="/" exact component={UserDashboard} />
-            <Route path="/tests" exact component={Tests} />
+            <Route path="/tests" exact component={TestsDashboard} />
             {/* <Route path="/subjects" exact component={Subjects} /> */}
             <Route path="/logout" exact component={Logout} />
             <Redirect to="/" />

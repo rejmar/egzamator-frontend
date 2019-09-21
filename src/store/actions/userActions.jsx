@@ -56,6 +56,10 @@ export const getTest = testId => {
   };
 };
 
+export const addNewTest = () => {
+  return dispatch => {};
+};
+
 // export const getUserRole = userId => {
 //   return dispatch => {
 //     axios
