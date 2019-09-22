@@ -8,7 +8,9 @@ const initialState = {
   role: null,
   student: null,
   teacher: null,
-  loading: false
+  loading: false,
+  teacherSubjects: null,
+  teacherTests: null
 };
 
 const reducer = (state = initialState, action) => {
@@ -30,6 +32,38 @@ const reducer = (state = initialState, action) => {
         loading: false
       };
     case actionTypes.FETCH_ORDERS_FAIL:
+      return {
+        ...state,
+        loading: false
+      };
+    case actionTypes.FETCH_TEACHER_SUBJECTS_START:
+      return {
+        ...state,
+        loading: true
+      };
+    case actionTypes.FETCH_TEACHER_SUBJECTS_SUCCESS:
+      return {
+        ...state,
+        teacherSubjects: action.teacherSubjects,
+        loading: false
+      };
+    case actionTypes.FETCH_TEACHER_SUBJECTS_FAIL:
+      return {
+        ...state,
+        loading: false
+      };
+    case actionTypes.FETCH_TEACHER_TESTS_START:
+      return {
+        ...state,
+        loading: true
+      };
+    case actionTypes.FETCH_TEACHER_TESTS_SUCCESS:
+      return {
+        ...state,
+        teacherTests: action.teacherTests,
+        loading: false
+      };
+    case actionTypes.FETCH_TEACHER_TESTS_FAIL:
       return {
         ...state,
         loading: false

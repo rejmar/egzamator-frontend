@@ -20,6 +20,44 @@ export const fetchUserFail = () => {
   };
 };
 
+export const fetchTeacherSubjectsStart = () => {
+  return {
+    type: actionTypes.FETCH_TEACHER_SUBJECTS_START
+  };
+};
+
+export const fetchTeacherSubjectsSuccess = teacherSubjects => {
+  return {
+    type: actionTypes.FETCH_TEACHER_SUBJECTS_SUCCESS,
+    teacherSubjects: teacherSubjects
+  };
+};
+
+export const fetchTeacherSubjectsFail = () => {
+  return {
+    type: actionTypes.FETCH_TEACHER_SUBJECTS_FAIL
+  };
+};
+
+export const fetchTeacherTestsStart = () => {
+  return {
+    type: actionTypes.FETCH_TEACHER_TESTS_START
+  };
+};
+
+export const fetchTeacherTestsSuccess = teacherTests => {
+  return {
+    type: actionTypes.FETCH_TEACHER_TESTS_SUCCESS,
+    teacherTests: teacherTests
+  };
+};
+
+export const fetchTeacherTestsFail = () => {
+  return {
+    type: actionTypes.FETCH_TEACHER_TESTS_FAIL
+  };
+};
+
 export const getUser = userId => {
   return dispatch => {
     axios
@@ -56,8 +94,60 @@ export const getTest = testId => {
   };
 };
 
-export const addNewTest = () => {
-  return dispatch => {};
+export const addNewTest = test => {
+  return dispatch => {
+    axios
+      .post("http://localhost:8080/egzamator-api/test/addTest", test)
+      .then(response => {
+        console.log("Test added", test);
+        dispatch(getTeacherData(test.userId));
+        // dispatch(getTeacherData(response.data));
+      })
+      .catch(error => {
+        console.log(error.data);
+        // dispatch(fetchTeacherSubjectsFail());
+      });
+  };
+};
+
+export const getTeacherSubjects = userId => {
+  return dispatch => {
+    dispatch(fetchTeacherSubjectsStart());
+    axios
+      .post(
+        "http://localhost:8080/egzamator-api/subject/getTeacherSubjects?userId=" +
+          userId
+      )
+      .then(response => {
+        dispatch(fetchTeacherSubjectsSuccess(response.data));
+      })
+      .catch(error => {
+        dispatch(fetchTeacherSubjectsFail());
+      });
+  };
+};
+
+export const getTeacherTests = userId => {
+  return dispatch => {
+    dispatch(fetchTeacherTestsStart());
+    axios
+      .post(
+        "http://localhost:8080/egzamator-api/teacher/tests?userId=" + userId
+      )
+      .then(response => {
+        dispatch(fetchTeacherTestsSuccess(response.data));
+      })
+      .catch(error => {
+        dispatch(fetchTeacherTestsFail());
+      });
+  };
+};
+
+export const getTeacherData = userId => {
+  return dispatch => {
+    dispatch(getTeacherSubjects(userId));
+    dispatch(getTeacherTests(userId));
+  };
 };
 
 // export const getUserRole = userId => {

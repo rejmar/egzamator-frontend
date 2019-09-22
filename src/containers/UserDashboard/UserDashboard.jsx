@@ -11,8 +11,6 @@ const UserDashboard = props => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // const userRole = props.userData ? props.userData.role.name : null;
-
   const userDashboard = props.role ? (
     props.role.includes("ROLE_STUDENT") ? (
       <div>

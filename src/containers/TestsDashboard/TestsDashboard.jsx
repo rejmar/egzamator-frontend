@@ -25,7 +25,12 @@ const TestsDashboard = props => {
     )
   ) : null;
 
-  return <div>{userTests}</div>;
+  return (
+    <div>
+      <h1>Your tests:</h1>
+      <div>{userTests}</div>
+    </div>
+  );
 };
 
 const mapStateToProps = state => {
