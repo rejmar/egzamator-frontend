@@ -6,10 +6,10 @@ import Layout from "./hoc/Layout/Layout";
 import SandwichBuilder from "./containers/SandwichBuilder/SandwichBuilder";
 import Logout from "./containers/Auth/Logout/Logout";
 import * as actions from "./store/actions/index";
-import spinner from "./components/UI/Spinner/Spinner";
+import Spinner from "./components/UI/Spinner/Spinner";
 import Home from "./containers/Home/Home";
 import UserDashboard from "./containers/UserDashboard/UserDashboard";
-import TestsDashboard from "./containers/TestsDashboard/TestsDashboard";
+// import TestsDashboard from "./containers/TestsDashboard/TestsDashboard";
 
 const App = props => {
   useEffect(() => {
@@ -27,10 +27,18 @@ const App = props => {
     return import("./containers/Auth/Auth");
   });
 
+  const TestsDashboard = React.lazy(() => {
+    return import("./containers/TestsDashboard/TestsDashboard");
+  });
+
+  const SubjectsDashboard = React.lazy(() => {
+    return import("./containers/SubjectsDashboard/SubjectsDashboard");
+  });
+
   let routes = (
     <Switch>
-      <Route path="/" exact component={Home} />
       <Route path="/auth" render={props => <Auth {...props} />} />
+      <Route path="/" exact component={Home} />
       <Redirect to="/" />
     </Switch>
   );
@@ -39,20 +47,20 @@ const App = props => {
     props.userRole === "ROLE_STUDENT"
       ? (routes = (
           <Switch>
-            <Route path="/" exact component={UserDashboard} />
             <Route path="/tests" exact component={TestsDashboard} />
-            {/* <Route path="/subjects" exact component={Subjects} /> */}
-
+            <Route path="/subjects" exact component={SubjectsDashboard} />
             <Route path="/logout" exact component={Logout} />
+            <Route path="/" exact component={UserDashboard} />
+
             <Redirect to="/" />
           </Switch>
         ))
       : (routes = (
           <Switch>
-            <Route path="/" exact component={UserDashboard} />
-            <Route path="/tests" exact component={TestsDashboard} />
-            {/* <Route path="/subjects" exact component={Subjects} /> */}
+            <Route path="/tests" component={TestsDashboard} />
+            <Route path="/subjects" exact component={SubjectsDashboard} />
             <Route path="/logout" exact component={Logout} />
+            <Route path="/" exact component={UserDashboard} />
             <Redirect to="/" />
           </Switch>
         ));
@@ -60,7 +68,7 @@ const App = props => {
   return (
     <div>
       <Layout>
-        <Suspense fallback={"Loading...."}>{routes}</Suspense>
+        <Suspense fallback={<Spinner />}>{routes}</Suspense>
       </Layout>
     </div>
   );

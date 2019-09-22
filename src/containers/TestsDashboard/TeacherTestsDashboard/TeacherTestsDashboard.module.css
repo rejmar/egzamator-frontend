@@ -8,3 +8,18 @@
   text-align: center;
   word-wrap: break-word;
 }
+.Subject {
+  width: 100%;
+  position: relative;
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 1vw;
+}
+.Test {
+  cursor: pointer;
+}
+.TestItem {
+  /* display: flex;
+  flex-direction: row; */
+  /* flex-direction: column; */
+}
