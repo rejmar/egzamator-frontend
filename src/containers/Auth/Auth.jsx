@@ -28,7 +28,7 @@ const Auth = props => {
     indexNumber: {
       elementType: "input",
       elementConfig: {
-        type: "text",
+        type: "number",
         placeholder: "Index number"
       },
       value: "",
@@ -128,8 +128,6 @@ const Auth = props => {
 
   const submitHandler = event => {
     event.preventDefault();
-    console.log(controls.email.value);
-    console.log(controls.password.value);
 
     props.onAuth(
       controls.email.value,
@@ -175,6 +173,10 @@ const Auth = props => {
     .map(password => password.props.value)
     .every(password => password === passwords[0].props.value);
 
+  const allFieldsCheck = formElementsArray
+    .map(el => el.config.touched)
+    .every(el => el === true);
+
   if (props.loading) {
     form = <Spinner />;
   }
@@ -198,14 +200,16 @@ const Auth = props => {
       {errorMessage}
       <form onSubmit={submitHandler}>
         {form}
+        {console.log(formElementsArray)}
         <Button
-          btnType={"Success"}
-          // clicked={orderHandler}
+          clicked={submitHandler}
+          disabled={!allFieldsCheck}
+          btnType={allFieldsCheck ? "Success" : "Danger"}
         >
           Submit
         </Button>
       </form>
-      <Button clicked={switchAuthModeHandler} btnType="Danger">
+      <Button clicked={switchAuthModeHandler} btnType="Text">
         {isSignup
           ? "Already a member? Click to log in"
           : "Not registered? Click to sign up"}

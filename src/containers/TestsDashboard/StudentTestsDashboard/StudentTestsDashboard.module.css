@@ -18,21 +18,16 @@
 .Test {
   cursor: pointer;
 }
-.TestGroup {
-  display: flex;
-  flex-direction: row;
-  float: left;
-  align-items: center;
+.FutureTest {
+  cursor: not-allowed;
+  color: gray;
+}
+.TestItem {
+  /* display: flex;
+  flex-direction: row; */
   /* flex-direction: column; */
 }
 
-.TestItem {
-}
-
-.RemoveBtn {
-  /* display: flex; */
-
-  align-items: stretch;
-  float: right;
-  /* margin:20px; */
+.Answers {
+  cursor: pointer;
 }

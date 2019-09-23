@@ -27,7 +27,6 @@ const TestsDashboard = props => {
 
   return (
     <div>
-      <h1>Your tests:</h1>
       <div>{userTests}</div>
     </div>
   );

@@ -7,7 +7,7 @@ const Test = props => {
   console.log(props);
   return (
     <div>
-      <h1>Welcome on particular test</h1>
+      <h5>Welcome on particular test</h5>
     </div>
   );
 };

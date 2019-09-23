@@ -16,6 +16,7 @@
   margin-bottom: 1vw;
 }
 .Test {
+  color: black;
   cursor: pointer;
 }
 .TestGroup {
@@ -26,13 +27,7 @@
   /* flex-direction: column; */
 }
 
-.TestItem {
-}
-
-.RemoveBtn {
-  /* display: flex; */
-
-  align-items: stretch;
-  float: right;
-  /* margin:20px; */
+.FutureTest {
+  cursor: not-allowed;
+  color: gray;
 }

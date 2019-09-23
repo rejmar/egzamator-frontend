@@ -8,6 +8,12 @@
   box-sizing: border-box;
 }
 
+.ButtonEnabled {
+  background-color: rgb(88, 185, 88);
+}
+.ButtonDisabled {
+  background-color: rgb(192, 64, 64);
+}
 @media (min-width: 600px) {
   .Auth {
     width: 500px;

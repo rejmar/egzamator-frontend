@@ -10,7 +10,10 @@ const initialState = {
   teacher: null,
   loading: false,
   teacherSubjects: null,
-  teacherTests: null
+  teacherTests: null,
+  studentSubjects: null,
+  studentTests: null,
+  studentSolvedTests: null
 };
 
 const reducer = (state = initialState, action) => {
@@ -64,6 +67,54 @@ const reducer = (state = initialState, action) => {
         loading: false
       };
     case actionTypes.FETCH_TEACHER_TESTS_FAIL:
+      return {
+        ...state,
+        loading: false
+      };
+    case actionTypes.FETCH_STUDENT_SUBJECTS_START:
+      return {
+        ...state,
+        loading: true
+      };
+    case actionTypes.FETCH_STUDENT_SUBJECTS_SUCCESS:
+      return {
+        ...state,
+        studentSubjects: action.studentSubjects,
+        loading: false
+      };
+    case actionTypes.FETCH_STUDENT_SUBJECTS_FAIL:
+      return {
+        ...state,
+        loading: false
+      };
+    case actionTypes.FETCH_STUDENT_TESTS_START:
+      return {
+        ...state,
+        loading: true
+      };
+    case actionTypes.FETCH_STUDENT_TESTS_SUCCESS:
+      return {
+        ...state,
+        studentTests: action.studentTests,
+        loading: false
+      };
+    case actionTypes.FETCH_STUDENT_TESTS_FAIL:
+      return {
+        ...state,
+        loading: false
+      };
+    case actionTypes.FETCH_STUDENT_SOLVED_TESTS_START:
+      return {
+        ...state,
+        loading: true
+      };
+    case actionTypes.FETCH_STUDENT_SOLVED_TESTS_SUCCESS:
+      return {
+        ...state,
+        studentSolvedTests: action.studentSolvedTests,
+        loading: false
+      };
+    case actionTypes.FETCH_STUDENT_SOLVED_TESTS_FAIL:
       return {
         ...state,
         loading: false

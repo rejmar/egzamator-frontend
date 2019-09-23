@@ -3,7 +3,6 @@ import { Route, Switch, withRouter, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 
 import Layout from "./hoc/Layout/Layout";
-import SandwichBuilder from "./containers/SandwichBuilder/SandwichBuilder";
 import Logout from "./containers/Auth/Logout/Logout";
 import * as actions from "./store/actions/index";
 import Spinner from "./components/UI/Spinner/Spinner";
@@ -17,12 +16,6 @@ const App = props => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const Orders = React.lazy(() => {
-    return import("./containers/Orders/Orders");
-  });
-  const Checkout = React.lazy(() => {
-    return import("./containers/Checkout/Checkout");
-  });
   const Auth = React.lazy(() => {
     return import("./containers/Auth/Auth");
   });
@@ -33,6 +26,10 @@ const App = props => {
 
   const SubjectsDashboard = React.lazy(() => {
     return import("./containers/SubjectsDashboard/SubjectsDashboard");
+  });
+
+  const MarksDashboard = React.lazy(() => {
+    return import("./containers/MarksDashboard/MarksDashboard");
   });
 
   let routes = (
@@ -48,7 +45,8 @@ const App = props => {
       ? (routes = (
           <Switch>
             <Route path="/tests" exact component={TestsDashboard} />
-            <Route path="/subjects" exact component={SubjectsDashboard} />
+            {/* <Route path="/subjects" exact component={SubjectsDashboard} /> */}
+            <Route path="/marks" exact component={MarksDashboard} />
             <Route path="/logout" exact component={Logout} />
             <Route path="/" exact component={UserDashboard} />
 
@@ -59,6 +57,8 @@ const App = props => {
           <Switch>
             <Route path="/tests" component={TestsDashboard} />
             <Route path="/subjects" exact component={SubjectsDashboard} />
+            <Route path="/marks" exact component={MarksDashboard} />
+
             <Route path="/logout" exact component={Logout} />
             <Route path="/" exact component={UserDashboard} />
             <Redirect to="/" />
