@@ -21,6 +21,7 @@ const Layout = props => {
     <Aux>
       <Toolbar
         isAuth={props.isAuthenticated}
+        role={props.role}
         drawerToggleClicked={sideDrawerToggleHandler}
       />
       <SideDrawer
@@ -35,7 +36,8 @@ const Layout = props => {
 
 const mapStateToProps = state => {
   return {
-    isAuthenticated: state.auth.token !== null
+    isAuthenticated: state.auth.token !== null,
+    role: state.user.role
   };
 };
 

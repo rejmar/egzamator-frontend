@@ -16,7 +16,6 @@
   margin-bottom: 1vw;
 }
 .Test {
-  cursor: pointer;
 }
 .TestGroup {
   display: flex;
@@ -24,15 +23,4 @@
   float: left;
   align-items: center;
   /* flex-direction: column; */
-}
-
-.TestItem {
-}
-
-.RemoveBtn {
-  /* display: flex; */
-
-  align-items: stretch;
-  float: right;
-  /* margin:20px; */
 }

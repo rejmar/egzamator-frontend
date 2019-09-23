@@ -21,10 +21,3 @@
   position: flex;
   color: gray;
 }
-.Buttons {
-  display: flex;
-  flex-direction: row;
-}
-.Button {
-  margin-left: 1vh;
-}

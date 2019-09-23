@@ -2,23 +2,23 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 
 import * as actions from "../../store/actions/index";
-import StudentSubjectsDashboard from "./StudentSubjectsDashboard/StudentSubjectsDashboard";
-import TeacherSubjectsDashboard from "./TeacherSubjectsDashboard/TeacherSubjectsDashboard";
+import StudentMarksDashboard from "./StudentMarksDashboard/StudentMarksDashboard";
+import TeacherMarksDashboard from "./TeacherMarksDashboard/TeacherMarksDashboard";
 
-const SubjectsDashboard = props => {
+const MarksDashboard = props => {
   useEffect(() => {
     // props.onUserLog(props.userId);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const userSubjects = props.role ? (
+  const userMarks = props.role ? (
     props.role.includes("ROLE_STUDENT") ? (
       <div>
-        <StudentSubjectsDashboard {...props} />
+        <StudentMarksDashboard {...props} />
       </div>
     ) : (
       <div>
-        <TeacherSubjectsDashboard {...props} />
+        <TeacherMarksDashboard {...props} />
       </div>
     )
   ) : null;
@@ -27,9 +27,9 @@ const SubjectsDashboard = props => {
     <div>
       <div>
         {" "}
-        <h4>Your subjects:</h4>
+        <h5>Your Marks:</h5>
       </div>
-      {userSubjects}
+      {userMarks}
     </div>
   );
 };
@@ -50,4 +50,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(SubjectsDashboard);
+)(MarksDashboard);
