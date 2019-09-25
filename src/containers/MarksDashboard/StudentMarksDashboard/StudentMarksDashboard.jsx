@@ -6,7 +6,6 @@ import * as actions from "../../../store/actions/index";
 import classes from "./StudentMarksDashboard.module.css";
 
 const StudentMarksDashboard = props => {
-  console.log(props);
   // const [subject, setSubject] = useState();
 
   useEffect(() => {
@@ -14,37 +13,35 @@ const StudentMarksDashboard = props => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const tests =
+  const marksContainer =
     props.studentData.marks &&
-    props.studentData.marks.map(mark => {
-      const tests =
-        props.solvedTests &&
-        Object.keys(props.solvedTests).map((value, key) => {
-          const subjectTests = props.solvedTests[value];
-
-          return subjectTests.map(test => (
-            <ListGroup.Item className={classes.Item} key={test.name}>
-              <div className={classes.Answers}>
+    props.studentData.marks
+      .sort((a, b) => b.test.date - a.test.date)
+      .map(mark => {
+        return (
+          <ListGroup className={classes.ListGroup} key={mark.test.id}>
+            <ListGroup.Item className={classes.Item}>
+              <div
+                className={`${classes.Answers} ${
+                  mark.mark >= 50 ? classes.Passed : classes.Failed
+                }`}
+              >
                 <div className={classes.AnswersItem}>
-                  Test: <b>{test.name}</b>
+                  NAME: <b>{mark.test.name}</b>
                 </div>
                 <div className={classes.AnswersItem}>
-                  Mark: <b>{mark.mark}</b>
+                  DATE: <b>{new Date(mark.test.date).toLocaleString()}</b>
+                </div>
+                <div className={classes.AnswersItem}>
+                  RESULT: <b>{mark.mark}%</b>
                 </div>
               </div>
             </ListGroup.Item>
-          ));
-        });
+          </ListGroup>
+        );
+      });
 
-      return (
-        <ul key={mark.id}>
-          <ListGroup className={classes.ListGroup}>{tests}</ListGroup>
-        </ul>
-      );
-    });
-
-  // console.log(props.solvedTests);
-  return <ListGroup>{tests}</ListGroup>;
+  return <ListGroup>{marksContainer}</ListGroup>;
 };
 
 const mapStateToProps = state => {

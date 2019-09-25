@@ -22,7 +22,6 @@ const TeacherTestsDashboard = props => {
   const handleShow = () => setShow(true);
   const handleDelete = testName => {
     setShow(false);
-    console.log(testName);
     props.onTestDelete(testName, props.userId);
   };
 
@@ -40,16 +39,12 @@ const TeacherTestsDashboard = props => {
   const handleSubmit = test => {
     setShow(false);
 
-    if (!test.isHistorical) {
-      const newTest = { ...test, userId: props.userId };
+    const newTest = { ...test, userId: props.userId };
 
-      props.onTestSubmit(newTest);
-      setHistorical(false);
-      setTest(null);
-      setSubject(null);
-    } else {
-      props.history.push({ pathname: "/subjects", state: { test: test } });
-    }
+    props.onTestSubmit(newTest);
+    setHistorical(false);
+    setTest(null);
+    setSubject(null);
   };
 
   const testsContainer =
@@ -65,7 +60,11 @@ const TeacherTestsDashboard = props => {
             if (subject.name === value) {
               return subjectTests
                 .sort((a, b) => a.date - b.date)
-                .filter(test => new Date(test.date) > new Date())
+                .filter(
+                  test =>
+                    new Date(new Date(test.date) + test.duration * 60 * 1000) >
+                    new Date()
+                )
                 .map(test => {
                   return (
                     <ListGroup.Item className={classes.Item} key={test.name}>

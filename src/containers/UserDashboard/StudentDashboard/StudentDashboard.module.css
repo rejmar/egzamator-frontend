@@ -31,3 +31,10 @@
   cursor: not-allowed;
   color: gray;
 }
+
+.Passed {
+  color: rgb(94, 175, 94);
+}
+.Failed {
+  color: rgb(230, 101, 101);
+}

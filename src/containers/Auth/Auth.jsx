@@ -200,7 +200,6 @@ const Auth = props => {
       {errorMessage}
       <form onSubmit={submitHandler}>
         {form}
-        {console.log(formElementsArray)}
         <Button
           clicked={submitHandler}
           disabled={!allFieldsCheck}
