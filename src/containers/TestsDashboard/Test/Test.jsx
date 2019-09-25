@@ -4,7 +4,6 @@ import { connect } from "react-redux";
 
 const Test = props => {
   useEffect(() => {});
-  console.log(props);
   return (
     <div>
       <h5>Welcome on particular test</h5>

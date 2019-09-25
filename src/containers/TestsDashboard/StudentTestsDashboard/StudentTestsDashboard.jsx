@@ -9,7 +9,6 @@ import { Button, ListGroup } from "react-bootstrap";
 
 const StudentTestsDashboard = props => {
   const [show, setShow] = useState(false);
-  const [subject, setSubject] = useState("");
   const [future, setFuture] = useState(false);
   const [historical, setHistorical] = useState(false);
   const [test, setAnswers] = useState();
@@ -30,11 +29,20 @@ const StudentTestsDashboard = props => {
     setFuture(
       new Date(test.date) > new Date(new Date() + test.duration * 60 * 1000)
     );
-    setHistorical(new Date(test.date + test.duration * 60 * 1000) < new Date());
+    setHistorical(
+      new Date(test.date + test.duration * 60 * 1000) < new Date() ||
+        solvedTestNames.includes(test.name)
+    );
+
+    const solvedTest = props.studentData.marks.filter(
+      mark => mark.test.name === test.name
+    )[0];
+    console.log(solvedTest);
 
     const testToOpen = {
       ...test,
-      subject
+      subject,
+      solvedTest
     };
     setAnswers(testToOpen);
     setShow(true);
@@ -50,11 +58,11 @@ const StudentTestsDashboard = props => {
 
       props.onAnswersSubmit(newSolvedAnswers);
       setAnswers(null);
-      setSubject(null);
-    } else {
-      props.history.push({ pathname: "/tests", state: { test: object } });
     }
   };
+
+  const solvedTestNames =
+    props.studentData && props.studentData.marks.map(mark => mark.test.name);
 
   const pendingTestsContainer =
     props.subjects &&
@@ -73,7 +81,8 @@ const StudentTestsDashboard = props => {
                   test =>
                     new Date() >= new Date(test.date) &&
                     new Date() <=
-                      new Date(test.date + test.duration * 60 * 1000)
+                      new Date(test.date + test.duration * 60 * 1000) &&
+                    !solvedTestNames.includes(test.name)
                 )
                 .map(test => {
                   return (
@@ -161,16 +170,27 @@ const StudentTestsDashboard = props => {
 
             if (subject.name === value) {
               return subjectTests
-                .sort((a, b) => ("" + a.name).localeCompare(b.name))
-                .filter(
-                  test =>
-                    new Date(test.date + test.duration * 60 * 1000) < new Date()
-                )
+                .sort((a, b) => b.date - a.date)
+                .filter(test => {
+                  return (
+                    new Date(test.date + test.duration * 60 * 1000) <
+                      new Date() || solvedTestNames.includes(test.name)
+                  );
+                })
                 .map(test => {
+                  const solvedTestMark =
+                    props.studentData &&
+                    props.studentData.marks
+                      .map(mark => mark)
+                      .filter(mark => mark.test.name === test.name)
+                      .map(mark => mark.mark)[0];
+
                   return (
                     <ListGroup.Item className={classes.Item} key={test.name}>
                       <div
-                        className={classes.Answers}
+                        className={`${classes.Item} ${
+                          solvedTestMark >= 50 ? classes.Passed : classes.Failed
+                        }`}
                         onClick={() => {
                           openAnswersHandler(test, subject.name);
                         }}
@@ -181,6 +201,14 @@ const StudentTestsDashboard = props => {
                         <div className={classes.AnswersItem}>
                           DATE: <b>{new Date(test.date).toLocaleString()}</b>
                         </div>
+                        <div className={classes.AnswersItem}>
+                          MARK:{" "}
+                          <b>{`${
+                            solvedTestMark == null
+                              ? "Not participated"
+                              : solvedTestMark + "%"
+                          }`}</b>
+                        </div>
                       </div>
                     </ListGroup.Item>
                   );
@@ -190,7 +218,6 @@ const StudentTestsDashboard = props => {
           });
         return (
           <ul key={subject.name}>
-            {/* <div className={classes.Subject}>{subject.name}</div> */}
             <ListGroup className={classes.ListGroup}>{tests}</ListGroup>
           </ul>
         );
@@ -212,6 +239,7 @@ const StudentTestsDashboard = props => {
           onShow={show}
           onHide={handleClose}
           onSubmit={handleSubmit}
+          solvedTests={props.solvedTests}
         />
       )}
     </div>
@@ -223,14 +251,14 @@ const mapStateToProps = state => {
     subjects: state.user.studentSubjects,
     tests: state.user.studentTests,
     solvedTests: state.user.studentSolvedTests,
-    test: state.user.studentOpenedTest
+    test: state.user.studentOpenedTest,
+    studentData: state.user.student
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     onAnswersSubmit: test => dispatch(actions.addStudentAnswers(test)),
-    // onAnswersGet: userId => dispatch(actions.getAnswers(userId)),
     onStudentLoad: userId => dispatch(actions.getStudentData(userId))
   };
 };

@@ -1,3 +1,4 @@
+/* eslint-disable no-loop-func */
 import React, { useEffect, useState } from "react";
 import { Redirect } from "react-router-dom";
 import { Modal, Form, Button } from "react-bootstrap";
@@ -11,37 +12,15 @@ const StudentTest = props => {
   const [answers, setAnswers] = useState([]);
   const [questions, setQuestions] = useState([]);
   const [testName, setTestName] = useState("");
-  const [testStartDate, setTestStartDate] = useState();
-  const [testDuration, setTestDuration] = useState(0);
+  const [invalid, setInvalid] = useState(new Set());
 
   useEffect(() => {
     setQuestions(props.test.questions);
-    // const answers = props.test.questions.map(question => ({
-    //   id: question.id,
-    //   answer: null
-    // }));
-    // setAnswers(answers);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   registerLocale("pl", pl);
 
-  const addQuestionHandler = () => {
-    const newQuestion = {
-      id: questions.length + 1,
-      description: "",
-      ans_a: "",
-      ans_b: "",
-      ans_c: "",
-      ans_d: "",
-      correct_ans: ""
-    };
-    const newQuestions = [...questions, newQuestion];
-
-    setQuestions(newQuestions);
-  };
-
   const addAnswerHandler = event => {
-    // console.log(e);
     const questionId = event.target.id.replace(/[^0-9]/g, "");
     const id = props.test.questions[questionId].id;
 
@@ -61,24 +40,6 @@ const StudentTest = props => {
     setAnswers(updatedAnswers);
   };
 
-  const updateQuestionHandler = e => {
-    const questionId = e.target.id.replace(/[^0-9]/g, "");
-    const field = e.target.getAttribute("field");
-
-    let oldQuestions = [...questions];
-    let question = oldQuestions[questionId];
-
-    question[field] = e.target.value;
-
-    const updatedQuestions = [
-      ...oldQuestions.slice(0, questionId),
-      question,
-      ...oldQuestions.slice(questionId + 1)
-    ];
-
-    setQuestions(updatedQuestions);
-  };
-
   const submitHandler = event => {
     const studentTest = {
       subject: event.test.subject,
@@ -88,6 +49,21 @@ const StudentTest = props => {
     };
     !props.historical && props.onSubmit(studentTest);
   };
+
+  const result = props.historical && (
+    <div>
+      <Form.Label className={classes.questionItem}>{`Your Result`}</Form.Label>
+      <Form.Control
+        key={`result${i}`}
+        type="text"
+        placeholder={"Your Result"}
+        defaultValue={props.test.solvedTest && props.test.solvedTest.mark + "%"}
+        maxLength={1}
+        field="result"
+        disabled={props.historical}
+      />
+    </div>
+  );
 
   const questionList = [];
   for (var i = 0; i < questions.length; ++i) {
@@ -173,8 +149,23 @@ const StudentTest = props => {
           key={`yourAns${i}`}
           type="text"
           placeholder={"Your Answer"}
+          defaultValue={
+            props.test.solvedTest &&
+            props.test.solvedTest.answers &&
+            props.test.solvedTest.answers.filter(
+              ans => ans.id === props.test.questions[i].id
+            )[0].answer
+          }
           maxLength={1}
-          onBlur={addAnswerHandler}
+          onBlur={e => {
+            addAnswerHandler(e);
+
+            const oldInvalid = new Set(invalid);
+            e.target.value.trim() === (null || "")
+              ? oldInvalid.add("yourAns".concat(i))
+              : oldInvalid.delete("yourAns".concat(i));
+            setInvalid(oldInvalid);
+          }}
           field="student_ans"
           disabled={props.historical}
         />
@@ -215,7 +206,7 @@ const StudentTest = props => {
                 <Form.Label className={classes.Label}>Test Date</Form.Label>
                 <DatePicker
                   className={classes.DatePicker}
-                  selected={props.test.date ? props.test.date : testStartDate}
+                  selected={props.test.date && props.test.date}
                   showTimeSelect
                   timeFormat="HH:mm"
                   timeIntervals={15}
@@ -238,18 +229,19 @@ const StudentTest = props => {
                   props.test.duration ? props.test.duration : "Test Duration"
                 }`}
                 defaultValue={props.test.duration}
-                onBlur={e => setTestDuration(e.target.value)}
                 disabled
               />
             </Form.Group>
           )}
           <Form.Label className={classes.Label}>Questions</Form.Label>
           <Form.Group controlId="formTestQuestions">{questionList}</Form.Group>
+          {result}
           <Form.Group>
             <Button variant="light" onClick={props.onHide}>
               Close
             </Button>
             {!props.historical &&
+              invalid.size === 0 &&
               (answers.length === questions.length && (
                 <Button variant={"success"} type="submit">
                   Submit
