@@ -21,5 +21,6 @@ export {
   getTeacherData,
   getStudentData,
   addStudentAnswers,
-  deleteTest
+  deleteTest,
+  getStudentsMarks
 } from "./userActions";

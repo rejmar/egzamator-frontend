@@ -31,7 +31,6 @@ const NavigationItems = props => {
         Home
       </NavigationItem>
       <NavigationItem link={"/tests"}>Tests</NavigationItem>
-      <NavigationItem link={"/subjects"}>Subjects</NavigationItem>
       <NavigationItem link={"/logout"}>Logout</NavigationItem>
     </Auxx>
   );
