@@ -13,7 +13,8 @@ const initialState = {
   teacherTests: null,
   studentSubjects: null,
   studentTests: null,
-  studentSolvedTests: null
+  studentSolvedTests: null,
+  studentsMarks: null
 };
 
 const reducer = (state = initialState, action) => {
@@ -115,6 +116,22 @@ const reducer = (state = initialState, action) => {
         loading: false
       };
     case actionTypes.FETCH_STUDENT_SOLVED_TESTS_FAIL:
+      return {
+        ...state,
+        loading: false
+      };
+    case actionTypes.GET_STUDENTS_MARKS_START:
+      return {
+        ...state,
+        loading: true
+      };
+    case actionTypes.GET_STUDENTS_MARKS_SUCCESS:
+      return {
+        ...state,
+        studentsMarks: action.studentsMarks,
+        loading: false
+      };
+    case actionTypes.GET_STUDENTS_MARKS_FAIL:
       return {
         ...state,
         loading: false

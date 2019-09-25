@@ -21,13 +21,11 @@ const TeacherDashboard = props => {
             const subjectTests = props.tests[value];
 
             if (subject.name === value) {
-              console.log(subjectTests);
               return subjectTests
                 .sort((a, b) => a.date - b.date)
                 .filter(test => new Date(test.date) > new Date())
                 .slice(0, 1)
                 .map(test => {
-                  console.log(test);
                   return (
                     <ListGroup.Item className={classes.Item} key={test.name}>
                       <div className={classes.Test}>

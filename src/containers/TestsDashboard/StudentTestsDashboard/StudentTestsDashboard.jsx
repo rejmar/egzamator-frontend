@@ -37,7 +37,6 @@ const StudentTestsDashboard = props => {
     const solvedTest = props.studentData.marks.filter(
       mark => mark.test.name === test.name
     )[0];
-    console.log(solvedTest);
 
     const testToOpen = {
       ...test,

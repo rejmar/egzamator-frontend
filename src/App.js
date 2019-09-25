@@ -45,7 +45,6 @@ const App = props => {
       ? (routes = (
           <Switch>
             <Route path="/tests" exact component={TestsDashboard} />
-            {/* <Route path="/subjects" exact component={SubjectsDashboard} /> */}
             <Route path="/marks" exact component={MarksDashboard} />
             <Route path="/logout" exact component={Logout} />
             <Route path="/" exact component={UserDashboard} />
@@ -56,7 +55,6 @@ const App = props => {
       : (routes = (
           <Switch>
             <Route path="/tests" component={TestsDashboard} />
-            <Route path="/subjects" exact component={SubjectsDashboard} />
             <Route path="/marks" exact component={MarksDashboard} />
 
             <Route path="/logout" exact component={Logout} />

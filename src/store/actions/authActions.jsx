@@ -109,7 +109,6 @@ export const registerUser = (userId, email, indexNumber) => {
       .post("http://localhost:8080/egzamator-api/user/registerUser/", userData)
       .then(response => {})
       .catch(err => {
-        console.log("RegisterUser:", err);
         dispatch(authFail(err.response.data.err));
         dispatch(fetchUserFail());
       });

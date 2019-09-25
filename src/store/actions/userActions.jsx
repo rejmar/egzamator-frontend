@@ -115,6 +115,25 @@ export const fetchStudentSolvedTestsFail = () => {
   };
 };
 
+export const getStudentsMarksStart = () => {
+  return {
+    type: actionTypes.GET_STUDENTS_MARKS_START
+  };
+};
+
+export const getStudentsMarksSuccess = studentsMarks => {
+  return {
+    type: actionTypes.GET_STUDENTS_MARKS_SUCCESS,
+    studentsMarks: studentsMarks
+  };
+};
+
+export const getStudentsMarksFail = () => {
+  return {
+    type: actionTypes.GET_STUDENTS_MARKS_FAIL
+  };
+};
+
 export const getUser = userId => {
   return dispatch => {
     axios
@@ -293,15 +312,20 @@ export const deleteTest = (testName, userId) => {
       });
   };
 };
-// export const getUserRole = userId => {
-//   return dispatch => {
-//     axios
-//       .post("http://localhost:8080/egzamator-api/user/role?userId=" + userId)
-//       .then(response => {
-//         dispatch(fetchUserRole(response.data));
-//       })
-//       .catch(error => {
-//         dispatch(fetchUserFail());
-//       });
-//   };
-// };
+
+export const getStudentsMarks = subjectName => {
+  return dispatch => {
+    dispatch(getStudentsMarksStart());
+    axios
+      .post(
+        "http://localhost:8080/egzamator-api/teacher/getStudentsMarks?subjectName=" +
+          subjectName
+      )
+      .then(res => {
+        dispatch(getStudentsMarksSuccess(res.data));
+      })
+      .catch(error => {
+        dispatch(getStudentsMarksFail());
+      });
+  };
+};
