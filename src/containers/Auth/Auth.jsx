@@ -102,7 +102,7 @@ const Auth = props => {
   const [isSignup, setIsSignup] = useState(false);
 
   useEffect(() => {
-    if (!props.building && props.authRedirectPath !== "/") {
+    if (props.authRedirectPath !== "/") {
       props.onSetAuthRedirectPath();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -222,7 +222,6 @@ const mapStateToProps = state => {
     loading: state.auth.loading,
     error: state.auth.error,
     isAuthenticated: state.auth.token !== null,
-    building: state.sandwichBuilder.building,
     authRedirectPath: state.auth.authRedirectPath
   };
 };

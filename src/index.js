@@ -7,8 +7,6 @@ import thunk from "redux-thunk";
 
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
-import sandwichReducer from "./store/reducers/sandwichBuilderReducer";
-import orderReducer from "./store/reducers/orderReducer";
 import authReducer from "./store/reducers/authReducer";
 import userReducer from "./store/reducers/userReducer";
 
@@ -18,8 +16,6 @@ const composeEnhancers =
     : null || compose;
 
 const rootReducer = combineReducers({
-  sandwichBuilder: sandwichReducer,
-  order: orderReducer,
   auth: authReducer,
   user: userReducer
 });
