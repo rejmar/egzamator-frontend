@@ -1,12 +1,4 @@
 export {
-  addIngredient,
-  removeIngredient,
-  initIngredients
-} from "./sandwichBuilderActions";
-
-export { purchaseSandwich, purchaseInit, fetchOrders } from "./orderActions";
-
-export {
   auth,
   logout,
   setAuthRedirectPath,

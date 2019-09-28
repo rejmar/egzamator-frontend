@@ -35,11 +35,6 @@ const reducer = (state = initialState, action) => {
         teacher: action.userData && action.userData.teacher,
         loading: false
       };
-    case actionTypes.FETCH_ORDERS_FAIL:
-      return {
-        ...state,
-        loading: false
-      };
     case actionTypes.FETCH_TEACHER_SUBJECTS_START:
       return {
         ...state,

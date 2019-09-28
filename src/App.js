@@ -8,7 +8,6 @@ import * as actions from "./store/actions/index";
 import Spinner from "./components/UI/Spinner/Spinner";
 import Home from "./containers/Home/Home";
 import UserDashboard from "./containers/UserDashboard/UserDashboard";
-// import TestsDashboard from "./containers/TestsDashboard/TestsDashboard";
 
 const App = props => {
   useEffect(() => {
