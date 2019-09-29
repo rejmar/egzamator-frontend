@@ -1,0 +1,40 @@
+.ListGroup {
+  margin-left: auto;
+  margin-right: auto;
+  width: 70%;
+}
+.Item {
+  width: auto;
+  text-align: center;
+  word-wrap: break-word;
+}
+.Subject {
+  width: 100%;
+  position: relative;
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 1vw;
+}
+.Test {
+  color: black;
+  cursor: pointer;
+}
+.TestGroup {
+  display: flex;
+  flex-direction: row;
+  float: left;
+  align-items: center;
+  /* flex-direction: column; */
+}
+
+.FutureTest {
+  cursor: not-allowed;
+  color: gray;
+}
+
+.Passed {
+  color: rgb(94, 175, 94);
+}
+.Failed {
+  color: rgb(230, 101, 101);
+}

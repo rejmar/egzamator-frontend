@@ -1,0 +1,21 @@
+.Auth {
+  margin: 20px auto;
+  width: 80%;
+  text-align: center;
+  box-shadow: 0 2px 3px #ccc;
+  border: 1px solid #eee;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.ButtonEnabled {
+  background-color: rgb(88, 185, 88);
+}
+.ButtonDisabled {
+  background-color: rgb(192, 64, 64);
+}
+@media (min-width: 600px) {
+  .Auth {
+    width: 500px;
+  }
+}

@@ -1,0 +1,30 @@
+.Label {
+  font-weight: bold;
+  font-size: 2vmax;
+}
+.questionItem {
+  font-size: 1.5vmax;
+  font-weight: normal;
+}
+
+.DateGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+.DatePicker {
+  width: 100%;
+  border-radius: 5px;
+  border: solid 1px;
+  border-color: rgb(212, 212, 212);
+  padding: 6px;
+  position: flex;
+  color: gray;
+}
+.Buttons {
+  display: flex;
+  flex-direction: row;
+}
+.Button {
+  margin-left: 1vh;
+}
