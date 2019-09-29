@@ -127,7 +127,10 @@ const TeacherTestsDashboard = props => {
             if (subject.name === value) {
               return subjectTests
                 .sort((a, b) => b.date - a.date)
-                .filter(test => new Date(test.date) < new Date())
+                .filter(
+                  test =>
+                    new Date(test.date + test.duration * 60 * 1000) < new Date()
+                )
                 .map(test => {
                   return (
                     <ListGroup.Item className={classes.Item} key={test.name}>

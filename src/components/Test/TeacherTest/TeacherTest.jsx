@@ -1,12 +1,9 @@
 /* eslint-disable no-loop-func */
 import React, { useEffect, useState } from "react";
-import { Redirect } from "react-router-dom";
 import { Modal, Form, Button } from "react-bootstrap";
 import DatePicker from "react-datepicker";
-import { registerLocale, setDefaultLocale } from "react-datepicker";
+import { registerLocale } from "react-datepicker";
 import pl from "date-fns/locale/en-GB";
-import { Formik } from "formik";
-import * as yup from "yup";
 
 import classes from "./TeacherTest.module.css";
 
@@ -16,6 +13,8 @@ const TeacherTest = props => {
   const [testStartDate, setTestStartDate] = useState(new Date());
   const [testDuration, setTestDuration] = useState(0);
   const [invalid, setInvalid] = useState(new Set());
+  const [previousDate, setPreviousDate] = useState();
+  const [isDateChanged, setIsDateChanged] = useState(false);
 
   useEffect(() => {
     setQuestions(props.test.questions);
@@ -33,6 +32,7 @@ const TeacherTest = props => {
       oldInvalid.add("correctAns1");
     }
     setInvalid(oldInvalid);
+    props.test.date && setPreviousDate(props.test.date);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   registerLocale("pl", pl);
@@ -89,6 +89,7 @@ const TeacherTest = props => {
       subject: event.test.subject,
       name: testName ? testName : event.test.name,
       date: testStartDate ? testStartDate : event.test.date,
+      previousDate: previousDate,
       duration: testDuration ? testDuration : event.test.duration,
       questions: questions,
       isHistorical: testStartDate
@@ -286,7 +287,7 @@ const TeacherTest = props => {
               <Form.Label className={classes.Label}>Test Date</Form.Label>
               <DatePicker
                 className={classes.DatePicker}
-                selected={props.test.date ? props.test.date : testStartDate}
+                selected={isDateChanged ? testStartDate : props.test.date}
                 onChange={date => {
                   handleDateChange(new Date(Date.parse(date)));
                   const oldInvalid = new Set(invalid);
@@ -294,6 +295,7 @@ const TeacherTest = props => {
                     ? oldInvalid.add("date")
                     : oldInvalid.delete("date");
                   setInvalid(oldInvalid);
+                  setIsDateChanged(true);
                 }}
                 showTimeSelect
                 timeFormat="HH:mm"
@@ -301,8 +303,16 @@ const TeacherTest = props => {
                 timeCaption="time"
                 dateFormat="d MMMM, yyyy HH:mm"
                 locale="pl"
-                disabled={props.historical}
+                disabled={
+                  props.historical ||
+                  new Date(previousDate + props.test.duration * 60 * 1000) <=
+                    new Date()
+                }
               />
+              {console.log(
+                new Date(previousDate + props.test.duration * 60 * 1000)
+              )}
+              {console.log(new Date())}
             </div>
           </Form.Group>
           <Form.Group controlId="formTestDuration">
