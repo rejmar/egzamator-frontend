@@ -1,6 +1,5 @@
 import axios from "axios";
 import * as actionTypes from "./actionTypes";
-import { API_TOKEN } from "dotenv";
 import {
   fetchUserStart,
   fetchUserSuccess,
@@ -167,8 +166,6 @@ export const logOrRegisterUser = (authData, isSignup) => {
               dispatch(fetchUserSuccess(foundUser));
             })
             .catch(err => {
-              console.log("Login/register: ", err);
-
               dispatch(authFail(err.response.data.error));
               dispatch(fetchUserFail());
             });
@@ -179,8 +176,7 @@ export const logOrRegisterUser = (authData, isSignup) => {
         }
       })
       .catch(err => {
-        console.log("logOrRegisterUser:", err);
-        dispatch(authFail(err.response.data.error));
+        dispatch(authFail("User not found"));
         dispatch(fetchUserFail());
       });
   };

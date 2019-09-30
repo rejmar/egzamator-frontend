@@ -1,6 +1,6 @@
 export {
   auth,
-  logout,
+  cleanAndLogout,
   setAuthRedirectPath,
   authCheckState
 } from "./authActions";

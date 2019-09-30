@@ -6,7 +6,7 @@ import Layout from "./hoc/Layout/Layout";
 import Logout from "./containers/Auth/Logout/Logout";
 import * as actions from "./store/actions/index";
 import Spinner from "./components/UI/Spinner/Spinner";
-import Home from "./containers/Home/Home";
+import Home from "./components/Home/Home";
 import UserDashboard from "./containers/UserDashboard/UserDashboard";
 
 const App = props => {

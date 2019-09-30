@@ -139,8 +139,6 @@ export const getUser = userId => {
     axios
       .post("http://localhost:8080/egzamator-api/user/getUser?userId=" + userId)
       .then(response => {
-        console.log("UserData:", response.data);
-
         dispatch(fetchUserSuccess(response.data));
       })
       .catch(error => {
@@ -159,14 +157,8 @@ export const getTest = testId => {
   return dispatch => {
     axios
       .post("http://localhost:8080/egzamator-api/test/getTest?id=" + testId)
-      .then(response => {
-        console.log("Test:", response.data);
-
-        // dispatch(fetchUserSuccess(response.data));
-      })
-      .catch(error => {
-        // dispatch(fetchUserFail());
-      });
+      .then(response => {})
+      .catch(error => {});
   };
 };
 
@@ -175,14 +167,9 @@ export const addNewTest = test => {
     axios
       .post("http://localhost:8080/egzamator-api/test/addTest", test)
       .then(response => {
-        console.log("Test added", test);
         dispatch(getTeacherData(test.userId));
-        // dispatch(getTeacherData(response.data));
       })
-      .catch(error => {
-        console.log(error.data);
-        // dispatch(fetchTeacherSubjectsFail());
-      });
+      .catch(error => {});
   };
 };
 
@@ -288,13 +275,8 @@ export const addStudentAnswers = answersData => {
   return dispatch => {
     axios
       .post("http://localhost:8080/egzamator-api/test/addAnswers", answersData)
-      .then(response => {
-        // dispatch(getStudentData(test.userId));
-      })
-      .catch(error => {
-        console.log(error.data);
-        // dispatch(fetchTeacherSubjectsFail());
-      });
+      .then(response => {})
+      .catch(error => {});
   };
 };
 
@@ -307,9 +289,7 @@ export const deleteTest = (testName, userId) => {
       .then(res => {
         dispatch(getTeacherTests(userId));
       })
-      .catch(error => {
-        console.log(error.data);
-      });
+      .catch(error => {});
   };
 };
 

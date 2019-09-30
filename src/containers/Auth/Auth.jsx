@@ -100,6 +100,7 @@ const Auth = props => {
     }
   });
   const [isSignup, setIsSignup] = useState(false);
+  const [isFormValid, setIsFormValid] = useState(false);
 
   useEffect(() => {
     if (props.authRedirectPath !== "/") {
@@ -121,6 +122,17 @@ const Auth = props => {
         touched: true
       }
     };
+
+    let isFormValid = Object.keys(updatedControls)
+      .map((value, key) => {
+        const controlEl = updatedControls[value];
+
+        return controlEl.valid;
+      })
+      .every(el => el === true);
+
+    setIsFormValid(isFormValid);
+
     isSignup
       ? setRegisterControls(updatedControls)
       : setLoginControls(updatedControls);
@@ -173,9 +185,7 @@ const Auth = props => {
     .map(password => password.props.value)
     .every(password => password === passwords[0].props.value);
 
-  const allFieldsCheck = formElementsArray
-    .map(el => el.config.touched)
-    .every(el => el === true);
+  let valid = isFormValid && passCheck ? true : false;
 
   if (props.loading) {
     form = <Spinner />;
@@ -186,7 +196,11 @@ const Auth = props => {
   }
 
   if (props.error) {
-    errorMessage = <p>{props.error.message}</p>;
+    if (props.error.message) {
+      errorMessage = <p>Error: {props.error.message}</p>;
+    } else {
+      errorMessage = <p>Error: {props.error}</p>;
+    }
   }
 
   let authRedirect = null;
@@ -202,8 +216,8 @@ const Auth = props => {
         {form}
         <Button
           clicked={submitHandler}
-          disabled={!allFieldsCheck}
-          btnType={allFieldsCheck ? "Success" : "Danger"}
+          disabled={!valid}
+          btnType={valid ? "Success" : "Danger"}
         >
           Submit
         </Button>

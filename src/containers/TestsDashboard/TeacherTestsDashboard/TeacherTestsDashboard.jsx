@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import Test from "../../../components/Test/TeacherTest/TeacherTest";
+import Test from "../../Test/TeacherTest/TeacherTest";
 import classes from "./TeacherTestsDashboard.module.css";
 import * as actions from "../../../store/actions/index";
 
@@ -114,6 +114,55 @@ const TeacherTestsDashboard = props => {
         );
       });
 
+  const pendingTestsContainer =
+    props.subjects &&
+    props.subjects
+      .sort((a, b) => a.name < b.name)
+      .map(subject => {
+        const tests =
+          props.tests &&
+          Object.keys(props.tests).map((value, key) => {
+            const subjectTests = props.tests[value];
+
+            if (subject.name === value) {
+              return subjectTests
+                .sort((a, b) => b.date - a.date)
+                .filter(
+                  test =>
+                    new Date(test.date + test.duration * 60 * 1000) >
+                      new Date() && new Date(test.date) < new Date()
+                )
+                .map(test => {
+                  return (
+                    <ListGroup.Item className={classes.Item} key={test.name}>
+                      <div
+                        className={classes.Test}
+                        onClick={() => {
+                          openTestHandler(test, subject.name);
+                        }}
+                      >
+                        <div className={classes.TestItem}>
+                          NAME: <b>{test.name}</b>
+                        </div>{" "}
+                        <div className={classes.TestItem}>
+                          DATE: <b>{new Date(test.date).toLocaleString()}</b>
+                        </div>
+                      </div>
+                    </ListGroup.Item>
+                  );
+                });
+            }
+            return null;
+          });
+
+        return (
+          <ul key={subject.name}>
+            <div className={classes.Subject}>{subject.name}</div>
+            <ListGroup className={classes.ListGroup}>{tests}</ListGroup>
+          </ul>
+        );
+      });
+
   const historicalTestsContainer =
     props.subjects &&
     props.subjects
@@ -166,6 +215,8 @@ const TeacherTestsDashboard = props => {
     <div>
       <h5>Your future tests:</h5>
       {testsContainer}
+      <h5>Your pending tests:</h5>
+      {pendingTestsContainer}
       <h5>Your historical tests:</h5>
       {historicalTestsContainer}
       {show && (

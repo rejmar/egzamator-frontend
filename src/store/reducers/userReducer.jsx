@@ -134,13 +134,19 @@ const reducer = (state = initialState, action) => {
     case actionTypes.USER_LOGOUT:
       return {
         ...state,
-        loading: false,
         userId: null,
         email: null,
         indexNumber: null,
         role: null,
         student: null,
-        teacher: null
+        teacher: null,
+        loading: false,
+        teacherSubjects: null,
+        teacherTests: null,
+        studentSubjects: null,
+        studentTests: null,
+        studentSolvedTests: null,
+        studentsMarks: null
       };
     default:
       return state;
