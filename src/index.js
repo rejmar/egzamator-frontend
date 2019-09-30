@@ -2,18 +2,14 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
-import { createStore, applyMiddleware, compose, combineReducers } from "redux";
+import { createStore, applyMiddleware, combineReducers } from "redux";
 import thunk from "redux-thunk";
+import { composeWithDevTools } from "redux-devtools-extension";
 
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import authReducer from "./store/reducers/authReducer";
 import userReducer from "./store/reducers/userReducer";
-
-const composeEnhancers =
-  process.env.NODE_ENV === "development"
-    ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
-    : null || compose;
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -22,7 +18,7 @@ const rootReducer = combineReducers({
 
 const store = createStore(
   rootReducer,
-  composeEnhancers(applyMiddleware(thunk))
+  composeWithDevTools(applyMiddleware(thunk))
 );
 
 const app = (

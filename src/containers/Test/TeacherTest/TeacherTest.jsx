@@ -309,10 +309,6 @@ const TeacherTest = props => {
                     new Date()
                 }
               />
-              {console.log(
-                new Date(previousDate + props.test.duration * 60 * 1000)
-              )}
-              {console.log(new Date())}
             </div>
           </Form.Group>
           <Form.Group controlId="formTestDuration">

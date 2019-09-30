@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import StudentTest from "../../../components/Test/StudentTest/StudentTest";
+import StudentTest from "../../Test/StudentTest/StudentTest";
 import classes from "./StudentTestsDashboard.module.css";
 import * as actions from "../../../store/actions/index";
 

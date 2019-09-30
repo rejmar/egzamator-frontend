@@ -4,7 +4,7 @@ import { ListGroup } from "react-bootstrap";
 
 import classes from "./StudentDashboard.module.css";
 import * as actions from "../../../store/actions/index";
-import Test from "../../../components/Test/StudentTest/StudentTest";
+import Test from "../../Test/StudentTest/StudentTest";
 
 const StudentDashboard = props => {
   useEffect(() => {
@@ -107,7 +107,11 @@ const StudentDashboard = props => {
         return (
           <ListGroup className={classes.ListGroup} key={mark.test.id}>
             <ListGroup.Item className={classes.Item}>
-              <div className={classes.Answers}>
+              <div
+                className={`${classes.Answers} ${
+                  mark.mark >= 50 ? classes.Passed : classes.Failed
+                }`}
+              >
                 <div className={classes.AnswersItem}>
                   NAME: <b>{mark.test.name}</b>
                 </div>
