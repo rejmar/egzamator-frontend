@@ -138,7 +138,7 @@ export const getUser = (userId) => {
   return (dispatch) => {
     axios
       .post(
-        "http://egzamator-env.eba-eymix2pk.eu-west-2.elasticbeanstalk.com:5000/egzamator-api/user/getUser?userId=" +
+        "http://egzamator-env.eba-eymix2pk.eu-west-2.elasticbeanstalk.com/egzamator-api/user/getUser?userId=" +
           userId
       )
       .then((response) => {
@@ -160,7 +160,7 @@ export const getTest = (testId) => {
   return (dispatch) => {
     axios
       .post(
-        "http://egzamator-env.eba-eymix2pk.eu-west-2.elasticbeanstalk.com:5000/egzamator-api/test/getTest?id=" +
+        "http://egzamator-env.eba-eymix2pk.eu-west-2.elasticbeanstalk.com/egzamator-api/test/getTest?id=" +
           testId
       )
       .then((response) => {})
@@ -172,7 +172,7 @@ export const addNewTest = (test) => {
   return (dispatch) => {
     axios
       .post(
-        "http://egzamator-env.eba-eymix2pk.eu-west-2.elasticbeanstalk.com:5000/egzamator-api/test/addTest",
+        "http://egzamator-env.eba-eymix2pk.eu-west-2.elasticbeanstalk.com/egzamator-api/test/addTest",
         test
       )
       .then((response) => {
@@ -187,7 +187,7 @@ export const getTeacherSubjects = (userId) => {
     dispatch(fetchTeacherSubjectsStart());
     axios
       .post(
-        "http://egzamator-env.eba-eymix2pk.eu-west-2.elasticbeanstalk.com:5000/egzamator-api/subject/getTeacherSubjects?userId=" +
+        "http://egzamator-env.eba-eymix2pk.eu-west-2.elasticbeanstalk.com/egzamator-api/subject/getTeacherSubjects?userId=" +
           userId
       )
       .then((response) => {
@@ -204,7 +204,7 @@ export const getTeacherTests = (userId) => {
     dispatch(fetchTeacherTestsStart());
     axios
       .post(
-        "http://egzamator-env.eba-eymix2pk.eu-west-2.elasticbeanstalk.com:5000/egzamator-api/teacher/tests?userId=" +
+        "http://egzamator-env.eba-eymix2pk.eu-west-2.elasticbeanstalk.com/egzamator-api/teacher/tests?userId=" +
           userId
       )
       .then((response) => {
@@ -221,7 +221,7 @@ export const getStudentSubjects = (userId) => {
     dispatch(fetchStudentSubjectsStart());
     axios
       .post(
-        "http://egzamator-env.eba-eymix2pk.eu-west-2.elasticbeanstalk.com:5000/egzamator-api/subject/getStudentSubjects?userId=" +
+        "http://egzamator-env.eba-eymix2pk.eu-west-2.elasticbeanstalk.com/egzamator-api/subject/getStudentSubjects?userId=" +
           userId
       )
       .then((response) => {
@@ -238,7 +238,7 @@ export const getStudentTests = (userId) => {
     dispatch(fetchStudentTestsStart());
     axios
       .post(
-        "http://egzamator-env.eba-eymix2pk.eu-west-2.elasticbeanstalk.com:5000/egzamator-api/student/tests?userId=" +
+        "http://egzamator-env.eba-eymix2pk.eu-west-2.elasticbeanstalk.com/egzamator-api/student/tests?userId=" +
           userId
       )
       .then((response) => {
@@ -255,7 +255,7 @@ export const getStudentSolvedTests = (userId) => {
     dispatch(fetchStudentSolvedTestsStart());
     axios
       .post(
-        "http://egzamator-env.eba-eymix2pk.eu-west-2.elasticbeanstalk.com:5000/egzamator-api/student/solvedTests?userId=" +
+        "http://egzamator-env.eba-eymix2pk.eu-west-2.elasticbeanstalk.com/egzamator-api/student/solvedTests?userId=" +
           userId
       )
       .then((response) => {
@@ -286,7 +286,7 @@ export const addStudentAnswers = (answersData) => {
   return (dispatch) => {
     axios
       .post(
-        "http://egzamator-env.eba-eymix2pk.eu-west-2.elasticbeanstalk.com:5000/egzamator-api/test/addAnswers",
+        "http://egzamator-env.eba-eymix2pk.eu-west-2.elasticbeanstalk.com/egzamator-api/test/addAnswers",
         answersData
       )
       .then((response) => {})
@@ -298,7 +298,7 @@ export const deleteTest = (testName, userId) => {
   return (dispatch) => {
     axios
       .get(
-        "http://egzamator-env.eba-eymix2pk.eu-west-2.elasticbeanstalk.com:5000/egzamator-api/test/remove?testName=" +
+        "http://egzamator-env.eba-eymix2pk.eu-west-2.elasticbeanstalk.com/egzamator-api/test/remove?testName=" +
           testName
       )
       .then((res) => {
@@ -313,7 +313,7 @@ export const getStudentsMarks = (subjectName) => {
     dispatch(getStudentsMarksStart());
     axios
       .post(
-        "http://egzamator-env.eba-eymix2pk.eu-west-2.elasticbeanstalk.com:5000/egzamator-api/teacher/getStudentsMarks?subjectName=" +
+        "http://egzamator-env.eba-eymix2pk.eu-west-2.elasticbeanstalk.com/egzamator-api/teacher/getStudentsMarks?subjectName=" +
           subjectName
       )
       .then((res) => {
