@@ -107,7 +107,7 @@ export const registerUser = (userId, email, indexNumber) => {
   return (dispatch) => {
     axios
       .post(
-        "http://egzamator-env.eba-eymix2pk.eu-west-2.elasticbeanstalk.com/egzamator-api/user/registerUser/",
+        "http://egzamator-env.eba-eymix2pk.eu-west-2.elasticbeanstalk.com:8080/egzamator-api/user/registerUser/",
         userData
       )
       .then((response) => {})
@@ -122,7 +122,7 @@ export const logOrRegisterUser = (authData, isSignup) => {
   return (dispatch) => {
     axios
       .post(
-        "http://egzamator-env.eba-eymix2pk.eu-west-2.elasticbeanstalk.com/egzamator-api/user/checkUser?email=" +
+        "http://egzamator-env.eba-eymix2pk.eu-west-2.elasticbeanstalk.com:8080/egzamator-api/user/checkUser?email=" +
           authData.email +
           "&indexNumber=" +
           authData.indexNumber
