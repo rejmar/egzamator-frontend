@@ -1,0 +1,3 @@
+[1002/210849.694:ERROR:registration_protocol_win.cc(103)] CreateFile: Nie mo¿na odnaleŸæ okreœlonego pliku. (0x2)
+[1002/210855.061:ERROR:registration_protocol_win.cc(103)] CreateFile: Nie mo¿na odnaleŸæ okreœlonego pliku. (0x2)
+[1002/213049.587:ERROR:directory_reader_win.cc(43)] FindFirstFile: System nie mo¿e odnaleŸæ okreœlonej œcie¿ki. (0x3)
