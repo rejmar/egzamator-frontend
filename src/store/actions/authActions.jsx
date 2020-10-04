@@ -4,12 +4,12 @@ import {
   fetchUserStart,
   fetchUserSuccess,
   fetchUserFail,
-  userLogout
+  userLogout,
 } from "./userActions";
 
 export const authStart = () => {
   return {
-    type: actionTypes.AUTH_START
+    type: actionTypes.AUTH_START,
   };
 };
 
@@ -17,14 +17,14 @@ export const authSuccess = (token, userId) => {
   return {
     type: actionTypes.AUTH_SUCCESS,
     idToken: token,
-    userId: userId
+    userId: userId,
   };
 };
 
-export const authFail = error => {
+export const authFail = (error) => {
   return {
     type: actionTypes.AUTH_FAIL,
-    error: error
+    error: error,
   };
 };
 
@@ -33,12 +33,12 @@ export const logout = () => {
   localStorage.removeItem("expirationDate");
   localStorage.removeItem("userId");
   return {
-    type: actionTypes.AUTH_LOGOUT
+    type: actionTypes.AUTH_LOGOUT,
   };
 };
 
 export const cleanAndLogout = () => {
-  return dispatch => {
+  return (dispatch) => {
     dispatch(userLogout());
     dispatch(logout());
   };
@@ -46,37 +46,37 @@ export const cleanAndLogout = () => {
 
 // export const
 
-export const checkAuthTimeout = expirationTime => {
-  return dispatch => {
+export const checkAuthTimeout = (expirationTime) => {
+  return (dispatch) => {
     setTimeout(() => {
       dispatch(cleanAndLogout());
     }, expirationTime * 1000);
   };
 };
 export const auth = (email, password, indexNumber, isSignup) => {
-  return dispatch => {
+  return (dispatch) => {
     dispatch(authStart());
     dispatch(fetchUserStart());
     const authData = {
       email,
       indexNumber,
       password,
-      returnSecureToken: true
+      returnSecureToken: true,
     };
 
     dispatch(logOrRegisterUser(authData, isSignup));
   };
 };
 
-export const setAuthRedirectPath = path => {
+export const setAuthRedirectPath = (path) => {
   return {
     type: actionTypes.SET_AUTH_REDIRECT_PATH,
-    path: path
+    path: path,
   };
 };
 
-export const authCheckState = userData => {
-  return dispatch => {
+export const authCheckState = (userData) => {
+  return (dispatch) => {
     const token = localStorage.getItem("token");
     if (!token) {
       dispatch(cleanAndLogout());
@@ -102,13 +102,16 @@ export const registerUser = (userId, email, indexNumber) => {
   const userData = {
     userId,
     email,
-    indexNumber
+    indexNumber,
   };
-  return dispatch => {
+  return (dispatch) => {
     axios
-      .post("http://localhost:8080/egzamator-api/user/registerUser/", userData)
-      .then(response => {})
-      .catch(err => {
+      .post(
+        "http://egzamator-env.eba-eymix2pk.eu-west-2.elasticbeanstalk.com:5000/egzamator-api/user/registerUser/",
+        userData
+      )
+      .then((response) => {})
+      .catch((err) => {
         dispatch(authFail(err.response.data.err));
         dispatch(fetchUserFail());
       });
@@ -116,15 +119,15 @@ export const registerUser = (userId, email, indexNumber) => {
 };
 
 export const logOrRegisterUser = (authData, isSignup) => {
-  return dispatch => {
+  return (dispatch) => {
     axios
       .post(
-        "http://localhost:8080/egzamator-api/user/checkUser?email=" +
+        "http://egzamator-env.eba-eymix2pk.eu-west-2.elasticbeanstalk.com:5000/egzamator-api/user/checkUser?email=" +
           authData.email +
           "&indexNumber=" +
           authData.indexNumber
       )
-      .then(response => {
+      .then((response) => {
         let url;
         let isUnique;
         let foundUser;
@@ -144,7 +147,7 @@ export const logOrRegisterUser = (authData, isSignup) => {
         isUnique &&
           axios
             .post(url, authData)
-            .then(res => {
+            .then((res) => {
               const expirationDate = new Date(
                 new Date().getTime() + res.data.expiresIn * 1000
               );
@@ -165,7 +168,7 @@ export const logOrRegisterUser = (authData, isSignup) => {
               dispatch(checkAuthTimeout(res.data.expiresIn));
               dispatch(fetchUserSuccess(foundUser));
             })
-            .catch(err => {
+            .catch((err) => {
               dispatch(authFail(err.response.data.error));
               dispatch(fetchUserFail());
             });
@@ -175,7 +178,7 @@ export const logOrRegisterUser = (authData, isSignup) => {
           dispatch(fetchUserFail());
         }
       })
-      .catch(err => {
+      .catch((err) => {
         dispatch(authFail("User not found"));
         dispatch(fetchUserFail());
       });

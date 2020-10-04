@@ -3,145 +3,148 @@ import * as actionTypes from "./actionTypes";
 
 export const fetchUserStart = () => {
   return {
-    type: actionTypes.FETCH_USER_START
+    type: actionTypes.FETCH_USER_START,
   };
 };
 
-export const fetchUserSuccess = userData => {
+export const fetchUserSuccess = (userData) => {
   return {
     type: actionTypes.FETCH_USER_SUCCESS,
-    userData: userData
+    userData: userData,
   };
 };
 
 export const fetchUserFail = () => {
   return {
-    type: actionTypes.FETCH_USER_FAIL
+    type: actionTypes.FETCH_USER_FAIL,
   };
 };
 
 export const fetchTeacherSubjectsStart = () => {
   return {
-    type: actionTypes.FETCH_TEACHER_SUBJECTS_START
+    type: actionTypes.FETCH_TEACHER_SUBJECTS_START,
   };
 };
 
-export const fetchTeacherSubjectsSuccess = teacherSubjects => {
+export const fetchTeacherSubjectsSuccess = (teacherSubjects) => {
   return {
     type: actionTypes.FETCH_TEACHER_SUBJECTS_SUCCESS,
-    teacherSubjects: teacherSubjects
+    teacherSubjects: teacherSubjects,
   };
 };
 
 export const fetchTeacherSubjectsFail = () => {
   return {
-    type: actionTypes.FETCH_TEACHER_SUBJECTS_FAIL
+    type: actionTypes.FETCH_TEACHER_SUBJECTS_FAIL,
   };
 };
 
 export const fetchTeacherTestsStart = () => {
   return {
-    type: actionTypes.FETCH_TEACHER_TESTS_START
+    type: actionTypes.FETCH_TEACHER_TESTS_START,
   };
 };
 
-export const fetchTeacherTestsSuccess = teacherTests => {
+export const fetchTeacherTestsSuccess = (teacherTests) => {
   return {
     type: actionTypes.FETCH_TEACHER_TESTS_SUCCESS,
-    teacherTests: teacherTests
+    teacherTests: teacherTests,
   };
 };
 
 export const fetchTeacherTestsFail = () => {
   return {
-    type: actionTypes.FETCH_TEACHER_TESTS_FAIL
+    type: actionTypes.FETCH_TEACHER_TESTS_FAIL,
   };
 };
 
 export const fetchStudentSubjectsStart = () => {
   return {
-    type: actionTypes.FETCH_STUDENT_SUBJECTS_START
+    type: actionTypes.FETCH_STUDENT_SUBJECTS_START,
   };
 };
 
-export const fetchStudentSubjectsSuccess = studentSubjects => {
+export const fetchStudentSubjectsSuccess = (studentSubjects) => {
   return {
     type: actionTypes.FETCH_STUDENT_SUBJECTS_SUCCESS,
-    studentSubjects: studentSubjects
+    studentSubjects: studentSubjects,
   };
 };
 
 export const fetchStudentSubjectsFail = () => {
   return {
-    type: actionTypes.FETCH_STUDENT_SUBJECTS_FAIL
+    type: actionTypes.FETCH_STUDENT_SUBJECTS_FAIL,
   };
 };
 
 export const fetchStudentTestsStart = () => {
   return {
-    type: actionTypes.FETCH_STUDENT_TESTS_START
+    type: actionTypes.FETCH_STUDENT_TESTS_START,
   };
 };
 
-export const fetchStudentTestsSuccess = studentTests => {
+export const fetchStudentTestsSuccess = (studentTests) => {
   return {
     type: actionTypes.FETCH_STUDENT_TESTS_SUCCESS,
-    studentTests: studentTests
+    studentTests: studentTests,
   };
 };
 
 export const fetchStudentTestsFail = () => {
   return {
-    type: actionTypes.FETCH_STUDENT_TESTS_FAIL
+    type: actionTypes.FETCH_STUDENT_TESTS_FAIL,
   };
 };
 
 export const fetchStudentSolvedTestsStart = () => {
   return {
-    type: actionTypes.FETCH_STUDENT_SOLVED_TESTS_START
+    type: actionTypes.FETCH_STUDENT_SOLVED_TESTS_START,
   };
 };
 
-export const fetchStudentSolvedTestsSuccess = studentSolvedTests => {
+export const fetchStudentSolvedTestsSuccess = (studentSolvedTests) => {
   return {
     type: actionTypes.FETCH_STUDENT_SOLVED_TESTS_SUCCESS,
-    studentSolvedTests: studentSolvedTests
+    studentSolvedTests: studentSolvedTests,
   };
 };
 
 export const fetchStudentSolvedTestsFail = () => {
   return {
-    type: actionTypes.FETCH_STUDENT_SOLVED_TESTS_FAIL
+    type: actionTypes.FETCH_STUDENT_SOLVED_TESTS_FAIL,
   };
 };
 
 export const getStudentsMarksStart = () => {
   return {
-    type: actionTypes.GET_STUDENTS_MARKS_START
+    type: actionTypes.GET_STUDENTS_MARKS_START,
   };
 };
 
-export const getStudentsMarksSuccess = studentsMarks => {
+export const getStudentsMarksSuccess = (studentsMarks) => {
   return {
     type: actionTypes.GET_STUDENTS_MARKS_SUCCESS,
-    studentsMarks: studentsMarks
+    studentsMarks: studentsMarks,
   };
 };
 
 export const getStudentsMarksFail = () => {
   return {
-    type: actionTypes.GET_STUDENTS_MARKS_FAIL
+    type: actionTypes.GET_STUDENTS_MARKS_FAIL,
   };
 };
 
-export const getUser = userId => {
-  return dispatch => {
+export const getUser = (userId) => {
+  return (dispatch) => {
     axios
-      .post("http://localhost:8080/egzamator-api/user/getUser?userId=" + userId)
-      .then(response => {
+      .post(
+        "http://egzamator-env.eba-eymix2pk.eu-west-2.elasticbeanstalk.com:5000/egzamator-api/user/getUser?userId=" +
+          userId
+      )
+      .then((response) => {
         dispatch(fetchUserSuccess(response.data));
       })
-      .catch(error => {
+      .catch((error) => {
         dispatch(fetchUserFail());
       });
   };
@@ -149,162 +152,174 @@ export const getUser = userId => {
 
 export const userLogout = () => {
   return {
-    type: actionTypes.USER_LOGOUT
+    type: actionTypes.USER_LOGOUT,
   };
 };
 
-export const getTest = testId => {
-  return dispatch => {
+export const getTest = (testId) => {
+  return (dispatch) => {
     axios
-      .post("http://localhost:8080/egzamator-api/test/getTest?id=" + testId)
-      .then(response => {})
-      .catch(error => {});
+      .post(
+        "http://egzamator-env.eba-eymix2pk.eu-west-2.elasticbeanstalk.com:5000/egzamator-api/test/getTest?id=" +
+          testId
+      )
+      .then((response) => {})
+      .catch((error) => {});
   };
 };
 
-export const addNewTest = test => {
-  return dispatch => {
+export const addNewTest = (test) => {
+  return (dispatch) => {
     axios
-      .post("http://localhost:8080/egzamator-api/test/addTest", test)
-      .then(response => {
+      .post(
+        "http://egzamator-env.eba-eymix2pk.eu-west-2.elasticbeanstalk.com:5000/egzamator-api/test/addTest",
+        test
+      )
+      .then((response) => {
         dispatch(getTeacherData(test.userId));
       })
-      .catch(error => {});
+      .catch((error) => {});
   };
 };
 
-export const getTeacherSubjects = userId => {
-  return dispatch => {
+export const getTeacherSubjects = (userId) => {
+  return (dispatch) => {
     dispatch(fetchTeacherSubjectsStart());
     axios
       .post(
-        "http://localhost:8080/egzamator-api/subject/getTeacherSubjects?userId=" +
+        "http://egzamator-env.eba-eymix2pk.eu-west-2.elasticbeanstalk.com:5000/egzamator-api/subject/getTeacherSubjects?userId=" +
           userId
       )
-      .then(response => {
+      .then((response) => {
         dispatch(fetchTeacherSubjectsSuccess(response.data));
       })
-      .catch(error => {
+      .catch((error) => {
         dispatch(fetchTeacherSubjectsFail());
       });
   };
 };
 
-export const getTeacherTests = userId => {
-  return dispatch => {
+export const getTeacherTests = (userId) => {
+  return (dispatch) => {
     dispatch(fetchTeacherTestsStart());
     axios
       .post(
-        "http://localhost:8080/egzamator-api/teacher/tests?userId=" + userId
+        "http://egzamator-env.eba-eymix2pk.eu-west-2.elasticbeanstalk.com:5000/egzamator-api/teacher/tests?userId=" +
+          userId
       )
-      .then(response => {
+      .then((response) => {
         dispatch(fetchTeacherTestsSuccess(response.data));
       })
-      .catch(error => {
+      .catch((error) => {
         dispatch(fetchTeacherTestsFail());
       });
   };
 };
 
-export const getStudentSubjects = userId => {
-  return dispatch => {
+export const getStudentSubjects = (userId) => {
+  return (dispatch) => {
     dispatch(fetchStudentSubjectsStart());
     axios
       .post(
-        "http://localhost:8080/egzamator-api/subject/getStudentSubjects?userId=" +
+        "http://egzamator-env.eba-eymix2pk.eu-west-2.elasticbeanstalk.com:5000/egzamator-api/subject/getStudentSubjects?userId=" +
           userId
       )
-      .then(response => {
+      .then((response) => {
         dispatch(fetchStudentSubjectsSuccess(response.data));
       })
-      .catch(error => {
+      .catch((error) => {
         dispatch(fetchStudentSubjectsFail());
       });
   };
 };
 
-export const getStudentTests = userId => {
-  return dispatch => {
+export const getStudentTests = (userId) => {
+  return (dispatch) => {
     dispatch(fetchStudentTestsStart());
     axios
       .post(
-        "http://localhost:8080/egzamator-api/student/tests?userId=" + userId
+        "http://egzamator-env.eba-eymix2pk.eu-west-2.elasticbeanstalk.com:5000/egzamator-api/student/tests?userId=" +
+          userId
       )
-      .then(response => {
+      .then((response) => {
         dispatch(fetchStudentTestsSuccess(response.data));
       })
-      .catch(error => {
+      .catch((error) => {
         dispatch(fetchStudentTestsFail());
       });
   };
 };
 
-export const getStudentSolvedTests = userId => {
-  return dispatch => {
+export const getStudentSolvedTests = (userId) => {
+  return (dispatch) => {
     dispatch(fetchStudentSolvedTestsStart());
     axios
       .post(
-        "http://localhost:8080/egzamator-api/student/solvedTests?userId=" +
+        "http://egzamator-env.eba-eymix2pk.eu-west-2.elasticbeanstalk.com:5000/egzamator-api/student/solvedTests?userId=" +
           userId
       )
-      .then(response => {
+      .then((response) => {
         dispatch(fetchStudentSolvedTestsSuccess(response.data));
       })
-      .catch(error => {
+      .catch((error) => {
         dispatch(fetchStudentSolvedTestsFail());
       });
   };
 };
 
-export const getTeacherData = userId => {
-  return dispatch => {
+export const getTeacherData = (userId) => {
+  return (dispatch) => {
     dispatch(getTeacherSubjects(userId));
     dispatch(getTeacherTests(userId));
   };
 };
 
-export const getStudentData = userId => {
-  return dispatch => {
+export const getStudentData = (userId) => {
+  return (dispatch) => {
     dispatch(getStudentSubjects(userId));
     dispatch(getStudentTests(userId));
     dispatch(getStudentSolvedTests(userId));
   };
 };
 
-export const addStudentAnswers = answersData => {
-  return dispatch => {
+export const addStudentAnswers = (answersData) => {
+  return (dispatch) => {
     axios
-      .post("http://localhost:8080/egzamator-api/test/addAnswers", answersData)
-      .then(response => {})
-      .catch(error => {});
+      .post(
+        "http://egzamator-env.eba-eymix2pk.eu-west-2.elasticbeanstalk.com:5000/egzamator-api/test/addAnswers",
+        answersData
+      )
+      .then((response) => {})
+      .catch((error) => {});
   };
 };
 
 export const deleteTest = (testName, userId) => {
-  return dispatch => {
+  return (dispatch) => {
     axios
       .get(
-        "http://localhost:8080/egzamator-api/test/remove?testName=" + testName
+        "http://egzamator-env.eba-eymix2pk.eu-west-2.elasticbeanstalk.com:5000/egzamator-api/test/remove?testName=" +
+          testName
       )
-      .then(res => {
+      .then((res) => {
         dispatch(getTeacherTests(userId));
       })
-      .catch(error => {});
+      .catch((error) => {});
   };
 };
 
-export const getStudentsMarks = subjectName => {
-  return dispatch => {
+export const getStudentsMarks = (subjectName) => {
+  return (dispatch) => {
     dispatch(getStudentsMarksStart());
     axios
       .post(
-        "http://localhost:8080/egzamator-api/teacher/getStudentsMarks?subjectName=" +
+        "http://egzamator-env.eba-eymix2pk.eu-west-2.elasticbeanstalk.com:5000/egzamator-api/teacher/getStudentsMarks?subjectName=" +
           subjectName
       )
-      .then(res => {
+      .then((res) => {
         dispatch(getStudentsMarksSuccess(res.data));
       })
-      .catch(error => {
+      .catch((error) => {
         dispatch(getStudentsMarksFail());
       });
   };
