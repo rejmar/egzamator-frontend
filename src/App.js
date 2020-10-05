@@ -1,6 +1,7 @@
 import React, { useEffect, Suspense } from "react";
 import { Route, Switch, withRouter, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
+import PropTypes from "prop-types";
 
 import Layout from "./hoc/Layout/Layout";
 import Logout from "./containers/Auth/Logout/Logout";
@@ -9,7 +10,7 @@ import Spinner from "./components/UI/Spinner/Spinner";
 import Home from "./components/Home/Home";
 import UserDashboard from "./containers/UserDashboard/UserDashboard";
 
-const App = props => {
+const App = (props) => {
   useEffect(() => {
     props.onTryAutoSignup(props.userData);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -23,17 +24,13 @@ const App = props => {
     return import("./containers/TestsDashboard/TestsDashboard");
   });
 
-  const SubjectsDashboard = React.lazy(() => {
-    return import("./containers/SubjectsDashboard/SubjectsDashboard");
-  });
-
   const MarksDashboard = React.lazy(() => {
     return import("./containers/MarksDashboard/MarksDashboard");
   });
 
   let routes = (
     <Switch>
-      <Route path="/auth" render={props => <Auth {...props} />} />
+      <Route path="/auth" render={(props) => <Auth {...props} />} />
       <Route path="/" exact component={Home} />
       <Redirect to="/" />
     </Switch>
@@ -71,23 +68,25 @@ const App = props => {
   );
 };
 
-const mapStateToProps = state => {
+App.propTypes = {
+  userData: PropTypes.any,
+  isAuthenticated: PropTypes.bool,
+  userRole: PropTypes.string,
+  onTryAutoSignup: PropTypes.func,
+};
+
+const mapStateToProps = (state) => {
   return {
     isAuthenticated: state.auth.token !== null,
     userData: state.user.userData,
-    userRole: state.user.role
+    userRole: state.user.role,
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    onTryAutoSignup: userData => dispatch(actions.authCheckState(userData))
+    onTryAutoSignup: (userData) => dispatch(actions.authCheckState(userData)),
   };
 };
 
-export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(App)
-);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));

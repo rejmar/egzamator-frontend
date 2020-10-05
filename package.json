@@ -67,7 +67,7 @@
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js",
-    "heroku-postbuild": "webpack -p"
+    "format": "prettier --ignore-path .gitignore --write \"**/*.+(js|json)\""
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -135,10 +135,13 @@
     ]
   },
   "devDependencies": {
+    "eslint-config-prettier": "^6.12.0",
     "node-sass": "^4.13.1",
     "postcss-loader": "^3.0.0",
+    "prettier": "^2.1.2",
     "redux-devtools-extension": "^2.13.8",
     "sass-loader": "^7.1.0",
+    "typescript": "^4.0.3",
     "webpack": "^4.29.6"
   }
 }
